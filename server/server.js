@@ -4,6 +4,17 @@ const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const crypto = require("crypto");
+
+// crypto algorithm
+const algorithm = "aes-256-cbc";
+
+// Gen 16 bytes random data for init vector = user_IV
+const initVector = crypto.randomBytes(16);
+
+// Secret Key for encrypt and decrypt
+// It will move to env file with const secret key
+const secretKey = crypto.randomBytes(16);
 
 // Dot Env
 require("dotenv/config");
