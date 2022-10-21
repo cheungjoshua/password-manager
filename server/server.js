@@ -5,7 +5,6 @@ const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
-const bcrypt = require("bcrypt");
 
 // crypto algorithm
 const algorithm = "aes-256-cbc";
@@ -31,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 const usersRoute = require("./routes/users");
 
 // Use Imported Routes
-app.use("/api/users", usersRoute);
+app.use("/users", usersRoute);
 
 // Testing Route
 app.get("/", (req, res) => {
