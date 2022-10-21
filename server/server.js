@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const cookieSession = require("cookie-session");
 const crypto = require("crypto");
 
 // crypto algorithm
@@ -25,6 +26,14 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Use cookie-session
+app.use(
+  cookieSession({
+    name: "session",
+    key: ["key1", "key2", "key3"],
+  })
+);
 
 // Import Routes
 const usersRoute = require("./routes/users");
