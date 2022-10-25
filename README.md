@@ -15,7 +15,7 @@ Password Manager web app using MERN stack(MongoDB, Express, React, Node)
 
 ## App work flow
 
-User login their own account with username and password. Server will hash the username and password and find any match user in database. If success, server response set session with userID and userIV, and list of user's website's username and password obj to client side. Client list out the website name with dropdown menu and allow user browser individual website username and password(hidden) by click. User will able to see the password and copy to clipboard for future use.
+User login their own account with username and password. Server will hash the password and find any match user in database. If success, server response set session with userID and userIV by using JWT(json web token), and list of user's website's username and password obj to client side. Client list out the website name with dropdown menu and allow user browser individual website username and password(hidden) by click. User will able to see the password and copy to clipboard for future use.
 When user create new username and password set. Server receive the data from client side and encrypt the data and send to mongoDB. Retrieve will same process with reverse step.
 
 ## What I learn from this APP
