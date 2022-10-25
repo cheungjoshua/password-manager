@@ -16,12 +16,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Use cookie-session
-app.use(
-  cookieSession({
-    name: "session",
-    key: ["key1", "key2", "key3"],
-  })
-);
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     key: ["key1", "key2"],
+//   })
+// );
 
 // Import Routes
 const usersRoute = require("./routes/users");

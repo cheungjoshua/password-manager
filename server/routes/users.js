@@ -3,8 +3,13 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 
 // User Sign Up
-router.post("/signup", () => {
-  console.log("user sign up");
+router.post("/signup", async (req, res) => {
+  try {
+    console.log("user sign up", req.body);
+    res.send(req.body);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 // User Login
