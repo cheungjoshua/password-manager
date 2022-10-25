@@ -4,9 +4,12 @@ const bcrypt = require("bcrypt");
 
 // User Sign Up
 router.post("/signup", async (req, res) => {
+  const body = req.body;
   try {
-    console.log("user sign up", req.body);
-    res.send(req.body);
+    const salt = await bcrypt.genSalt(10);
+    body.password = await bcrypt.hash(body.password, salt);
+    console.log("user sign up", body);
+    res.send(body);
   } catch (err) {
     res.status(400).json(err);
   }
