@@ -6,13 +6,15 @@ const { validateSignUp } = require("../helpers/validation");
 
 // User Sign Up
 router.post("/signup", async (req, res) => {
+  // Validate user input send error if invalid
   const { error } = validateSignUp(req.body);
   if (error) return res.status(400).send(error);
-  const body = req.body;
+
+  // Hash password with salt if password is valid
   const salt = await bcrypt.genSalt(10);
-  hashedPassword = await bcrypt.hash(body.password, salt);
+  hashedPassword = await bcrypt.hash(req.body.password, salt);
   const user = new User({
-    username: body.username,
+    username: req.body.username,
     password: hashedPassword,
   });
   try {
