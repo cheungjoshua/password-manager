@@ -10,16 +10,21 @@ router.post("/signup", async (req, res) => {
   const { error } = validateSignUp(req.body);
   if (error) return res.status(400).send(error);
 
+  // Check if user is exist
+  const userExist = await User.findOne({ email: req.body.username });
+  if (userExist) return res.status(400).send("Email already exists");
+
   // Hash password with salt if password is valid
   const salt = await bcrypt.genSalt(10);
   hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  // Create a new User
   const user = new User({
     username: req.body.username,
     password: hashedPassword,
   });
   try {
     const saveSignUpUser = await user.save();
-    console.log("user sign up", body);
     res.send(saveSignUpUser);
   } catch (err) {
     res.status(400).json(err);
