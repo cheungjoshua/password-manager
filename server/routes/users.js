@@ -2,9 +2,12 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const { validateSignUp } = require("../helpers/validation");
 
 // User Sign Up
 router.post("/signup", async (req, res) => {
+  const { error } = validateSignUp(req.body);
+  if (error) return res.status(400).send(error);
   const body = req.body;
   const salt = await bcrypt.genSalt(10);
   hashedPassword = await bcrypt.hash(body.password, salt);
