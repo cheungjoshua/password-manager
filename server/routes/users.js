@@ -33,8 +33,16 @@ router.post("/signup", async (req, res) => {
 });
 
 // User Login
-router.post("/login/", () => {
-  console.log("user sign up");
+router.post("/login/", async (req, res) => {
+  // Use validateSignUp function check login data
+  const { error } = validateSignUp(req.body);
+  if (error) return res.status(400).send(error);
+
+  try {
+    console.log("user sign up");
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 // User Logout
