@@ -18,12 +18,13 @@ router.post("/signup", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-  // Create a new User
+  // Create a new User for save it to database
   const user = new User({
     username: req.body.username,
     password: hashedPassword,
   });
   try {
+    // Save the new created User
     const saveSignUpUser = await user.save();
     res.send(saveSignUpUser);
   } catch (err) {
