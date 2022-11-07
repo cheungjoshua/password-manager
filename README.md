@@ -33,3 +33,4 @@ In this project build. I will learn to use node built encrypt and decrypt functi
 - Mongoose
 - crypto
 - Bcrypt
+- JWT (Jason Web Token)
