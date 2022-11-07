@@ -38,6 +38,9 @@ router.post("/login/", async (req, res) => {
   const { error } = validateSignUp(req.body);
   if (error) return res.status(400).send(error);
 
+  // Check if User is exist or not
+  const userExist = await User.findOne({ username: req.body.username });
+  if (!userExist) return res.status(400).send("User Not Found");
   try {
     console.log("user sign up");
   } catch (err) {
