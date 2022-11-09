@@ -50,6 +50,9 @@ router.post("/login/", async (req, res) => {
   if (!isValidPassword) return res.status(400).send("Invalid password");
 
   // IF password correct
+
+  // Create JWT token
+
   res.send("Logged In");
 });
 
