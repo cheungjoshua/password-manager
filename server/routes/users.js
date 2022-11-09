@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { validateSignUp } = require("../helpers/validation");
 
@@ -39,14 +40,17 @@ router.post("/login/", async (req, res) => {
   if (error) return res.status(400).send(error);
 
   // Check if User is exist or not
-  const userExist = await User.findOne({ username: req.body.username });
-  if (!userExist) return res.status(400).send("User Not Found");
+  const existUser = await User.findOne({ username: req.body.username });
+  if (!existUser) return res.status(400).send("User Not Found");
 
-  try {
-    console.log("user sign up");
-  } catch (err) {
-    res.status(400).json(err);
-  }
+  const isValidPassword = await bcrypt.compare(
+    req.body.password,
+    existUser.password
+  );
+  if (!isValidPassword) return res.status(400).send("Invalid password");
+
+  // IF password correct
+  res.send("Logged In");
 });
 
 // User Logout
