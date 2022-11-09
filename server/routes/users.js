@@ -52,8 +52,8 @@ router.post("/login/", async (req, res) => {
   // IF password correct
 
   // Create JWT token
-
-  res.send("Logged In");
+  const accessToken = jwt.sign({ _id: existUser.id }, process.env.ACCESS_TOKEN);
+  res.header("access-token", accessToken).send(accessToken);
 });
 
 // User Logout
