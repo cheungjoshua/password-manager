@@ -13,7 +13,9 @@ router.post("/signup", async (req, res) => {
 
   // Check if user is exist
   const userExist = await User.findOne({ username: req.body.username });
-  if (userExist) return res.status(400).send("Email already exists");
+  // code 200 for existed user. eg. Google, facebook
+  // can use code 422 as well
+  if (userExist) return res.status(200).send("Email already exists");
 
   // Hash password with salt if password is valid
   const salt = await bcrypt.genSalt(10);
@@ -25,7 +27,7 @@ router.post("/signup", async (req, res) => {
     password: hashedPassword,
   });
   try {
-    // Save the new created User
+    // Save the new created User to DB
     const saveSignUpUser = await user.save();
     res.send(saveSignUpUser);
   } catch (err) {
@@ -47,13 +49,17 @@ router.post("/login/", async (req, res) => {
     req.body.password,
     existUser.password
   );
-  if (!isValidPassword) return res.status(400).send("Invalid password");
+  if (!isValidPassword) return res.status(401).send("Invalid password");
 
   // IF password correct
 
   // Create JWT token
-  const accessToken = jwt.sign({ _id: existUser.id }, process.env.ACCESS_TOKEN);
-  res.header("access-token", accessToken).send(accessToken);
+  const accessToken = jwt.sign(
+    { _id: existUser.id },
+    process.env.ACCESS_TOKEN,
+    { expiresIn: "15m" }
+  );
+  res.header("access-token", accessToken).json({ accessToken });
 });
 
 // User Logout
