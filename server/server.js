@@ -25,9 +25,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Import Routes
 const usersRoute = require("./routes/users");
+const passwordsRoute = require("./routes/passwords");
 
 // Use Imported Routes
 app.use("/users", usersRoute);
+app.use("/api/passwords", passwordsRoute);
 
 // Testing Route
 app.get("/", (req, res) => {
