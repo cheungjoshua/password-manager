@@ -52,7 +52,11 @@ router.post("/login/", async (req, res) => {
   // IF password correct
 
   // Create JWT token
-  const accessToken = jwt.sign({ _id: existUser.id }, process.env.ACCESS_TOKEN);
+  const accessToken = jwt.sign(
+    { _id: existUser.id },
+    process.env.ACCESS_TOKEN,
+    { expiresIn: "1h" }
+  );
   res.header("access-token", accessToken).send(accessToken);
 });
 
