@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
@@ -21,10 +22,16 @@ router.post("/signup", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+  // Create a specify init vector key for individual user
+
+  const userIv = await crypto.randomBytes(16).toString("hex");
+  // const userIv = await Buffer.from(initVector, "hex");
+
   // Create a new User for save it to database
   const user = new User({
     username: req.body.username,
     password: hashedPassword,
+    user_IV: userIv,
   });
   try {
     // Save the new created User to DB
@@ -59,7 +66,7 @@ router.post("/login/", async (req, res) => {
     process.env.ACCESS_TOKEN,
     { expiresIn: "15m" }
   );
-  res.header("access-token", accessToken).json({ accessToken });
+  res.header("access-token", accessToken).send(accessToken);
 });
 
 // User Logout
