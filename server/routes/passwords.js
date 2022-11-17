@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
-const { route } = require("./users");
 
 // crypto algorithm
 const algorithm = "aes-256-cbc";
@@ -12,7 +11,7 @@ const initVector = crypto.randomBytes(16);
 
 // Secret Key for encrypt and decrypt
 // It will move to env file with const secret key
-const secretKey = crypto.randomBytes(16);
+const secretKey = process.env.SECURITY_KEY;
 
 // Get all the passwords post
 router.get("/", (req, res) => {
