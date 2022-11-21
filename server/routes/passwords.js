@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
+const verify = require("../middleware/verifyToken");
 
 // crypto algorithm
 const algorithm = "aes-256-cbc";
@@ -14,7 +15,7 @@ const initVector = crypto.randomBytes(16);
 const secretKey = process.env.SECURITY_KEY;
 
 // Get all the passwords post
-router.get("/", (req, res) => {
+router.get("/", verify, (req, res) => {
   console.log("get all post");
   res.send("get all post");
 });
