@@ -16,12 +16,14 @@ const decryptData = (initVector, data) => {
 };
 
 // encrypt the password list
+///////////// *** Need to redo !!! ***
+//////////// *** cannot loop obj inside map ****
+/////////// *** only decrypt the username, siteName, password ******
+
 const decryptList = (initVector, data) => {
   const result = data.map((dataObj) => {
     let newData = {};
-    for (const key in dataObj) {
-      newData[key] = decryptData(initVector, dataObj.key);
-    }
+    /// ***** refactor here
     return newData;
   });
 
