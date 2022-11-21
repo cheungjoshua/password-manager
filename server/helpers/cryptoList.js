@@ -29,11 +29,11 @@ const decryptList = (initVector, data) => {
 };
 
 // decrypt the password list
-const encryptList = (initVector, data) => {
+const encryptData = (initVector, data) => {
   const cipher = crypto.createCipheriv(algorithm, secretKey, initVector);
   let encryptData = cipher.update(data, "utf-8", "hex");
   encryptData += cipher.final("hex");
   return encryptData;
 };
 
-module.exports = { encryptList, decryptList };
+module.exports = { encryptData, decryptList };

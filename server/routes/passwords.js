@@ -3,7 +3,7 @@ const router = express.Router();
 const crypto = require("crypto");
 const Passwords = require("../models/Passwords");
 const Users = require("../models/User");
-const { encryptList, decryptList } = require("../helpers/cryptoList");
+const { encryptData, decryptList } = require("../helpers/cryptoList");
 
 // middle ware - verify json web token
 const verify = require("../middleware/verifyToken");
