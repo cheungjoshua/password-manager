@@ -1,23 +1,30 @@
 const express = require("express");
 const router = express.Router();
 const crypto = require("crypto");
+const Passwords = require("../models/Passwords");
+const Users = require("../models/User");
+const { encryptList, decryptList } = require("../helpers/cryptoList");
+
+// middle ware - verify json web token
 const verify = require("../middleware/verifyToken");
 
-// crypto algorithm
-const algorithm = "aes-256-cbc";
-
-// Gen 16 bytes random data for init vector = user_IV
-// Will use it when user create passwords model
-const initVector = crypto.randomBytes(16);
-
-// Secret Key for encrypt and decrypt
-// It will move to env file with const secret key
-const secretKey = process.env.SECURITY_KEY;
-
 // Get all the passwords post
-router.get("/", verify, (req, res) => {
-  console.log("get all post");
-  res.send("get all post");
+router.get("/", verify, async (req, res) => {
+  const userID = req.user._id;
+  const passwordsList = await Passwords.find({ _id: userID });
+
+  // Send msg to front if no passwords list find
+  if (passwordsList.length === 0)
+    return res.status(200).send("Not passwords list find");
+
+  try {
+    const user = await Users.findOne({ _id: userID });
+    const user_IV = user.user_IV;
+    const decryptedList = decryptList(user_IV, passwordsList);
+    res.status(200).json({ decryptedList });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 // Create New password post and save to DB
