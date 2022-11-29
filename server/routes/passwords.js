@@ -3,6 +3,7 @@ const router = express.Router();
 const crypto = require("crypto");
 const Passwords = require("../models/Passwords");
 const Users = require("../models/User");
+const { validatePost } = require("../helpers/validation");
 const { encryptData, decryptList } = require("../helpers/cryptoList");
 
 // middle ware - verify json web token
@@ -28,6 +29,17 @@ router.get("/", verify, async (req, res) => {
 });
 
 // Create New password post and save to DB
+router.post("/", verify, async (req, res) => {
+  // Valid check the password Post input
+  const { error } = validatePost(req.body);
+  if (error) return res.status(400).send(error);
+
+  // Check is the app_name is exist
+  const appExisted = Passwords.findOne({ app_name: req.body.app_name });
+  if (appExisted) return res.status(200).send("App already exists");
+
+  // Passed all checks. Save post to DB
+});
 
 // Edit/Update existed password from DB
 
