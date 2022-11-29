@@ -35,7 +35,7 @@ router.post("/", verify, async (req, res) => {
   if (error) return res.status(400).send(error);
 
   // Check is the app_name is exist
-  const appExisted = Passwords.findOne({ app_name: req.body.app_name });
+  const appExisted = await Passwords.findOne({ app_name: req.body.app_name });
   if (appExisted) return res.status(200).send("App already exists");
 
   // Passed all checks. Save post to DB
