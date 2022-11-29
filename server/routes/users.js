@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const { validateSignUp } = require("../helpers/validation");
+const { validateSignUp, validateLogin } = require("../helpers/validation");
 
 // User Sign Up
 router.post("/signup", async (req, res) => {
@@ -46,11 +46,11 @@ router.post("/signup", async (req, res) => {
 // User Login
 router.post("/login/", async (req, res) => {
   // Use validateSignUp function check login data
-  const { error } = validateSignUp(req.body);
+  const { error } = validateLogin(req.body);
   if (error) return res.status(400).send(error);
 
   // Check if User is exist or not
-  const existUser = await User.findOne({ username: req.body.username });
+  const existUser = await User.findOne({ email: req.body.email });
   if (!existUser) return res.status(400).send("User Not Found");
 
   const isValidPassword = await bcrypt.compare(
@@ -67,7 +67,7 @@ router.post("/login/", async (req, res) => {
     process.env.ACCESS_TOKEN,
     { expiresIn: "1h" }
   );
-  res.header("access-token", accessToken).send(accessToken);
+  res.header("access-token", accessToken).json({ accessToken });
 });
 
 // User Logout
