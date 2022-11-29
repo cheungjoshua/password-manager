@@ -12,7 +12,7 @@ const verify = require("../middleware/verifyToken");
 // Get all the passwords post
 router.get("/", verify, async (req, res) => {
   const userID = req.user._id;
-  const passwordsList = await Passwords.find({ _id: userID });
+  const passwordsList = await Passwords.find({ user_ID: userID });
 
   // Send msg to front if no passwords list find
   if (passwordsList.length === 0)
@@ -39,6 +39,26 @@ router.post("/", verify, async (req, res) => {
   if (appExisted) return res.status(200).send("App already exists");
 
   // Passed all checks. Save post to DB
+  const userID = req.user.id;
+
+  // Get initVector from DB
+  const { user_IV } = await Users.findOne({ _id: userID });
+
+  // Create password post, encrypt data
+  const { app_name, app_username, app_password } = req.body;
+  const passwordPost = new Passwords({
+    user_ID: userID,
+    app_name: encryptData(user_IV, app_name),
+    app_username: encryptData(user_IV, app_username),
+    app_password: encryptData(user_IV, app_password),
+  });
+
+  try {
+    const posted = await passwordPost.save();
+    res.status(200).send(posted);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 // Edit/Update existed password from DB
