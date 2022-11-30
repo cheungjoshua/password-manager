@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const crypto = require("crypto");
 const Passwords = require("../models/Passwords");
 const Users = require("../models/User");
 const { validatePost } = require("../helpers/validation");
@@ -67,5 +66,13 @@ router.post("/", verify, async (req, res) => {
 // Edit/Update existed password from DB
 
 // Delete existed password post from DB
+router.delete("/:id", verify, async (req, res) => {
+  try {
+    const deletedPassword = await Passwords.remove({ _id: req.params.id });
+    res.status(200).send("removed Password");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 module.exports = router;
