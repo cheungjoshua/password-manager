@@ -34,18 +34,21 @@ router.post("/", verify, async (req, res) => {
   const { error } = validatePost(req.body);
   if (error) return res.status(400).send(error);
 
+  // Destruct req.body
+  const { app_name, app_username, app_password } = req.body;
+
+  // Get initVector from DB
+  const userID = req.user._id;
+  const { user_IV } = await Users.findOne({ _id: userID });
+
   // Check is the app_name is exist
-  const appExisted = await Passwords.findOne({ app_name: req.body.app_name });
+  const encryptAppName = encryptData(user_IV, app_name);
+  const appExisted = await Passwords.findOne({ app_name: encryptAppName });
   if (appExisted) return res.status(200).send("App already exists");
 
   // Passed all checks. Save post to DB
-  const userID = req.user.id;
-
-  // Get initVector from DB
-  const { user_IV } = await Users.findOne({ _id: userID });
 
   // Create password post, encrypt data
-  const { app_name, app_username, app_password } = req.body;
   const passwordPost = new Passwords({
     user_ID: userID,
     app_name: encryptData(user_IV, app_name),

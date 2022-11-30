@@ -24,7 +24,7 @@ router.post("/signup", async (req, res) => {
 
   // Create a specify init vector key for individual user
 
-  const userIv = await crypto.randomBytes(16).toString("hex");
+  const userIv = crypto.randomBytes(16);
   // const userIv = await Buffer.from(initVector, "hex");
 
   // Create a new User for save it to database

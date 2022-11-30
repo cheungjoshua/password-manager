@@ -1,11 +1,12 @@
 const crypto = require("crypto");
 
 // crypto algorithm
-const algorithm = "aes-256-cbc";
+const algorithm = "aes-256-gcm";
 
 // Secret Key for encrypt and decrypt
 // It will move to env file with const secret key
-const secretKey = process.env.SECURITY_KEY;
+
+const secretKey = crypto.scryptSync(process.env.SECURITY_KEY, "salt", 32);
 
 // encrypt individual data inside the loop
 const decryptData = (initVector, data) => {
