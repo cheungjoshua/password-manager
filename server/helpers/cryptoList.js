@@ -8,7 +8,8 @@ const algorithm = "aes-256-gcm";
 
 const secretKey = crypto.scryptSync(process.env.SECURITY_KEY, "salt", 32);
 
-// encrypt individual data inside the loop
+// decrypt individual data inside the loop
+
 const decryptData = (initVector, data) => {
   const decipher = crypto.createCipheriv(algorithm, secretKey, initVector);
   let decryptData = decipher.update(data, "hex", "utf-8");
@@ -16,7 +17,9 @@ const decryptData = (initVector, data) => {
   return decryptData;
 };
 
-// encrypt the password list
+// decrypt the password list
+// Loop thought the array and use decryptData function
+// to decrypt the object inside the array
 ///////////// *** Need to redo !!! ***
 //////////// *** cannot loop obj inside map ****
 /////////// *** only decrypt the username, siteName, password ******

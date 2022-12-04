@@ -8,7 +8,7 @@ const { encryptData, decryptList } = require("../helpers/cryptoList");
 // middle ware - verify json web token
 const verify = require("../middleware/verifyToken");
 
-// Get all the passwords post
+// Get all the passwords post from Logged In User
 router.get("/", verify, async (req, res) => {
   const userID = req.user._id;
   const passwordsList = await Passwords.find({ user_ID: userID });
@@ -64,6 +64,11 @@ router.post("/", verify, async (req, res) => {
 });
 
 // Edit/Update existed password from DB
+///// First step similar as get all post route
+////  Second step similar as password post route
+//// 1. get userID for userIV
+//// 2.  use Post id instead user id to get post from DB
+//// 3. directly update the encrypted data to DB
 
 // Delete existed password post from DB
 router.delete("/:id", verify, async (req, res) => {
