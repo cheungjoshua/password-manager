@@ -3,7 +3,11 @@ const router = express.Router();
 const Passwords = require("../models/Passwords");
 const Users = require("../models/User");
 const { validatePost } = require("../helpers/validation");
-const { encryptData, decryptList } = require("../helpers/cryptoList");
+const {
+  encryptData,
+  decryptList,
+  decryptData,
+} = require("../helpers/cryptoList");
 
 // middle ware - verify json web token
 const verify = require("../middleware/verifyToken");
@@ -19,10 +23,12 @@ router.get("/", verify, async (req, res) => {
 
   try {
     const user = await Users.findOne({ _id: userID });
-    const user_IV = user.user_IV;
-    const decryptedList = decryptList(user_IV, passwordsList);
+    const user_IV = await user.user_IV;
+
+    let decryptedList = decryptList(user_IV, passwordsList);
     res.status(200).json({ decryptedList });
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 });

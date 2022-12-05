@@ -11,8 +11,15 @@ const secretKey = crypto.scryptSync(process.env.SECURITY_KEY, "salt", 32);
 // decrypt individual data inside the loop
 
 const decryptData = (initVector, data) => {
-  const decipher = crypto.createCipheriv(algorithm, secretKey, initVector);
-  let decryptData = decipher.update(data, "hex", "utf-8");
+  // console.log(data);
+  const [encryptedData, authTag] = data.split("|");
+  const decipher = crypto.createDecipheriv(
+    algorithm,
+    secretKey,
+    Buffer.from(initVector, "hex")
+  );
+  decipher.setAuthTag(Buffer.from(authTag, "hex"));
+  let decryptData = decipher.update(encryptedData, "hex", "utf-8");
   decryptData += decipher.final("utf-8");
   return decryptData;
 };
@@ -25,21 +32,26 @@ const decryptData = (initVector, data) => {
 /////////// *** only decrypt the username, siteName, password ******
 
 const decryptList = (initVector, data) => {
-  const result = data.map((dataObj) => {
-    let newData = {};
-    /// ***** refactor here
-    return newData;
-  });
-
-  return result;
+  for (const item of data) {
+    item.app_name = decryptData(initVector, item.app_name);
+    item.app_username = decryptData(initVector, item.app_username);
+    item.app_password = decryptData(initVector, item.app_password);
+  }
+  console.log(data);
+  return data;
 };
 
-// decrypt the password list
+// encrypt the password list
 const encryptData = (initVector, data) => {
-  const cipher = crypto.createCipheriv(algorithm, secretKey, initVector);
+  const cipher = crypto.createCipheriv(
+    algorithm,
+    secretKey,
+    Buffer.from(initVector, "hex")
+  );
   let encryptData = cipher.update(data, "utf-8", "hex");
   encryptData += cipher.final("hex");
-  return encryptData;
+  const authTag = cipher.getAuthTag().toString("hex");
+  return [encryptData, authTag].join("|");
 };
 
-module.exports = { encryptData, decryptList };
+module.exports = { encryptData, decryptList, decryptData };
