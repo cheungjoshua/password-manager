@@ -4,14 +4,10 @@ const crypto = require("crypto");
 const algorithm = "aes-256-gcm";
 
 // Secret Key for encrypt and decrypt
-// It will move to env file with const secret key
-
 const secretKey = crypto.scryptSync(process.env.SECURITY_KEY, "salt", 32);
 
-// decrypt individual data inside the loop
-
+// Decrypt individual data inside the loop
 const decryptData = (initVector, data) => {
-  // console.log(data);
   const [encryptedData, authTag] = data.split("|");
   const decipher = crypto.createDecipheriv(
     algorithm,
@@ -24,24 +20,17 @@ const decryptData = (initVector, data) => {
   return decryptData;
 };
 
-// decrypt the password list
-// Loop thought the array and use decryptData function
-// to decrypt the object inside the array
-///////////// *** Need to redo !!! ***
-//////////// *** cannot loop obj inside map ****
-/////////// *** only decrypt the username, siteName, password ******
-
+// Decrypt the password list
 const decryptList = (initVector, data) => {
   for (const item of data) {
     item.app_name = decryptData(initVector, item.app_name);
     item.app_username = decryptData(initVector, item.app_username);
     item.app_password = decryptData(initVector, item.app_password);
   }
-  console.log(data);
   return data;
 };
 
-// encrypt the password list
+// Encrypt the password list
 const encryptData = (initVector, data) => {
   const cipher = crypto.createCipheriv(
     algorithm,
