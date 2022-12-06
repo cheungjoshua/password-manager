@@ -71,6 +71,28 @@ router.post("/", verify, async (req, res) => {
 //// 1. get userID for userIV
 //// 2.  use Post id instead user id to get post from DB
 //// 3. directly update the encrypted data to DB
+router.patch("/:id", verify, async (req, res) => {
+  // Check Password post is exist
+  const postExist = await Passwords.findOne({ _id: req.params.id });
+  if (!postExist) return res.status(400).json({ err });
+
+  // Password exist, do follow
+  // Get user from DB for userIV
+  const user = await Users.findOne({ _id: req.user._id });
+
+  try {
+    const updatedPost = await Passwords.updateOne(
+      { _id: req.user._id },
+      { $set: req.body }
+    );
+
+    // Get the updated password post for respond to client
+    const updatedPassword = await Passwords.findOne({ _id: req.params.id });
+    res.status(200).json({ updatedPassword });
+  } catch (err) {
+    res.status(400).json({ err });
+  }
+});
 
 // Delete existed password post from DB
 router.delete("/:id", verify, async (req, res) => {
