@@ -43,4 +43,11 @@ const encryptData = (initVector, data) => {
   return [encryptData, authTag].join("|");
 };
 
-module.exports = { encryptData, decryptList, decryptData };
+// Encrypt the input data for Password update
+const encryptList = (initVector, dataArray) => {
+  for (const item in dataArray) {
+    item = encryptData(initVector, item);
+  }
+  return dataArray;
+};
+module.exports = { encryptData, decryptList, decryptData, encryptList };

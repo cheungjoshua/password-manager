@@ -4,6 +4,7 @@ const Passwords = require("../models/Passwords");
 const Users = require("../models/User");
 const { validatePost } = require("../helpers/validation");
 const { encryptData, decryptList } = require("../helpers/cryptoList");
+const { createObject } = require("../helpers/createUpdateObject");
 
 // middle ware - verify json web token
 const verify = require("../middleware/verifyToken");
@@ -66,11 +67,7 @@ router.post("/", verify, async (req, res) => {
 });
 
 // Edit/Update existed password from DB
-///// First step similar as get all post route
-////  Second step similar as password post route
-//// 1. get userID for userIV
-//// 2.  use Post id instead user id to get post from DB
-//// 3. directly update the encrypted data to DB
+
 router.patch("/:id", verify, async (req, res) => {
   // Check Password post is exist
   const postExist = await Passwords.findOne({ _id: req.params.id });
@@ -80,10 +77,20 @@ router.patch("/:id", verify, async (req, res) => {
   // Get user from DB for userIV
   const user = await Users.findOne({ _id: req.user._id });
 
+  // Encrypt update
+  // Get Key --> field need to update
+  const fields = Object.keys(req.body);
+
+  // Get value --> field data need to update
+  const fieldValues = Object.values(req.body);
+  // Combine both fields and fields value in one object
+  // and use it to update the DB
+  const encryptedUpdateObj = createObject(user.user_IV, fields, fieldValues);
+
   try {
     const updatedPost = await Passwords.updateOne(
       { _id: req.user._id },
-      { $set: req.body }
+      { $set: encryptedUpdateObj }
     );
 
     // Get the updated password post for respond to client
