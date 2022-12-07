@@ -101,7 +101,7 @@ router.patch("/:id", verify, async (req, res) => {
 // Delete existed password post from DB
 router.delete("/:id", verify, async (req, res) => {
   // Check request delete password post exist
-  const existedPost = Passwords.findOne({ _id: req.params.id });
+  const existedPost = await Passwords.findOne({ _id: req.params.id });
   if (!existedPost) return res.status(400).send("No Post Find");
 
   // Check logged in User same as Password post creator
