@@ -76,12 +76,16 @@ router.patch("/:id", verify, async (req, res) => {
   // Get user from DB for userIV
   const user = await Users.findOne({ _id: req.user._id });
 
-  // Encrypt update
+  // Check logged in User same as password post creator
+  if (postExist.user_ID !== req.user._id)
+    return res.status(400).send("User Request Denied");
+
+  // Encrypt update data
   const encryptedUpdateObj = createObject(user.user_IV, req.body);
 
   try {
     const updatedPost = await Passwords.updateOne(
-      { _id: req.user._id },
+      { _id: req.params.id },
       { $set: encryptedUpdateObj }
     );
 

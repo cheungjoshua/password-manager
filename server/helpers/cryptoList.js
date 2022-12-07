@@ -45,8 +45,8 @@ const encryptData = (initVector, data) => {
 
 // Encrypt the input data for Password update
 const encryptList = (initVector, dataArray) => {
-  for (const item in dataArray) {
-    item = encryptData(initVector, item);
+  for (const ii in dataArray) {
+    dataArray[ii] = encryptData(initVector, dataArray[ii]);
   }
   return dataArray;
 };
