@@ -50,4 +50,5 @@ const encryptList = (initVector, dataArray) => {
   }
   return dataArray;
 };
+
 module.exports = { encryptData, decryptList, decryptData, encryptList };

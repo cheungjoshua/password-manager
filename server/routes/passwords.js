@@ -66,8 +66,7 @@ router.post("/", verify, async (req, res) => {
   }
 });
 
-// Edit/Update existed password from DB
-
+// Edit && Update existed password from DB
 router.patch("/:id", verify, async (req, res) => {
   // Check Password post is exist
   const postExist = await Passwords.findOne({ _id: req.params.id });
@@ -78,14 +77,7 @@ router.patch("/:id", verify, async (req, res) => {
   const user = await Users.findOne({ _id: req.user._id });
 
   // Encrypt update
-  // Get Key --> field need to update
-  const fields = Object.keys(req.body);
-
-  // Get value --> field data need to update
-  const fieldValues = Object.values(req.body);
-  // Combine both fields and fields value in one object
-  // and use it to update the DB
-  const encryptedUpdateObj = createObject(user.user_IV, fields, fieldValues);
+  const encryptedUpdateObj = createObject(user.user_IV, req.body);
 
   try {
     const updatedPost = await Passwords.updateOne(
@@ -95,6 +87,7 @@ router.patch("/:id", verify, async (req, res) => {
 
     // Get the updated password post for respond to client
     const updatedPassword = await Passwords.findOne({ _id: req.params.id });
+
     res.status(200).json({ updatedPassword });
   } catch (err) {
     res.status(400).json({ err });
