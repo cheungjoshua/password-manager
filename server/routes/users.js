@@ -66,6 +66,11 @@ router.post("/login/", async (req, res) => {
     process.env.ACCESS_TOKEN,
     { expiresIn: "1h" }
   );
+
+  //////// ******* attention *********
+  //////// Will Refactor in the future********
+  /////// Will use set cookie with httpOnly, secure, sameSite
+  /////// Will need to install cookie-parse to do the job
   res.header("access-token", accessToken).json({ accessToken });
 });
 
