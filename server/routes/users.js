@@ -20,7 +20,7 @@ router.post("/signup", async (req, res) => {
 
   // Hash password with salt if password is valid
   const salt = await bcrypt.genSalt(10);
-  hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
   // Create a specify init vector key for individual user
 
