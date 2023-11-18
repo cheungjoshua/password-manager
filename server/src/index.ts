@@ -1,10 +1,10 @@
 // Import dependency
-const express = require("express");
+import express from "express";
 const app = express();
-const cors = require("cors");
-const morgan = require("morgan");
-const mongoose = require("mongoose");
-const cookieSession = require("cookie-session");
+import cors from "cors";
+import morgan from "morgan";
+import mongoose from "mongoose";
+import cookieSession from "cookie-session";
 
 // Dot Env
 require("dotenv/config");
@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 
 // Mongoose Connect to DB
 mongoose
-  .connect(process.env.MONGO_URL, { useNewUrlParser: true })
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connected to DB");
   })

@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 // Validate sign up
-const validateSignUp = (data) => {
+const validateSignUp = (data: any) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required().email(),
     username: Joi.string().min(6).required(),
@@ -11,7 +11,7 @@ const validateSignUp = (data) => {
 };
 
 // Validate Login
-const validateLogin = (data) => {
+const validateLogin = (data: any) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).required(),
@@ -20,7 +20,7 @@ const validateLogin = (data) => {
 };
 
 // Validate Password Post
-const validatePost = (data) => {
+const validatePost = (data: any) => {
   const schema = Joi.object({
     app_name: Joi.string().min(3).required(),
     app_username: Joi.string().min(6).required().email(),
@@ -29,4 +29,4 @@ const validatePost = (data) => {
   return schema.validate(data);
 };
 
-module.exports = { validateSignUp, validateLogin, validatePost };
+export { validateSignUp, validateLogin, validatePost };

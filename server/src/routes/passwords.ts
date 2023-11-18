@@ -1,16 +1,20 @@
-const express = require("express");
+import express, { Request } from "express";
 const router = express.Router();
-const Passwords = require("../models/Passwords");
-const Users = require("../models/User");
-const { validatePost } = require("../helpers/validation");
-const { encryptData, decryptList } = require("../helpers/cryptoList");
-const { createObject } = require("../helpers/createUpdateObject");
+import { Passwords } from "../models/Passwords";
+import { User } from "../models/User";
+import { validatePost } from "../helpers/validation";
+import { encryptData, decryptList } from "../helpers/cryptoList";
+import { createObject } from "../helpers/createUpdateObject";
 
 // middle ware - verify json web token
 const verify = require("../middleware/verifyToken");
 
+interface RequestType extends Request {
+  user?: any;
+}
+
 // Get all the passwords post from Logged In User
-router.get("/", verify, async (req, res) => {
+router.get("/", verify, async (req: RequestType, res) => {
   const userID = req.user._id;
   const passwordsList = await Passwords.find({ user_ID: userID });
 
@@ -19,7 +23,7 @@ router.get("/", verify, async (req, res) => {
     return res.status(200).send("Not passwords list find");
 
   try {
-    const user = await Users.findOne({ _id: userID });
+    const user = await User.findOne({ _id: userID });
     const user_IV = await user.user_IV;
 
     let decryptedList = decryptList(user_IV, passwordsList);
@@ -31,7 +35,7 @@ router.get("/", verify, async (req, res) => {
 });
 
 // Create New password post and save to DB
-router.post("/", verify, async (req, res) => {
+router.post("/", verify, async (req: RequestType, res) => {
   // Valid check the password Post input
   const { error } = validatePost(req.body);
   if (error) return res.status(400).send(error);
@@ -41,7 +45,7 @@ router.post("/", verify, async (req, res) => {
 
   // Get initVector from DB
   const userID = req.user._id;
-  const { user_IV } = await Users.findOne({ _id: userID });
+  const { user_IV } = await User.findOne({ _id: userID });
 
   // Check is the app_name is exist
   const encryptAppName = encryptData(user_IV, app_name);
@@ -67,14 +71,14 @@ router.post("/", verify, async (req, res) => {
 });
 
 // Edit && Update existed password from DB
-router.patch("/:id", verify, async (req, res) => {
+router.patch("/:id", verify, async (req: RequestType, res) => {
   // Check Password post is exist
   const postExist = await Passwords.findOne({ _id: req.params.id });
-  if (!postExist) return res.status(400).json({ err });
+  if (!postExist) return res.status(400);
 
   // Password exist, do follow
   // Get user from DB for userIV
-  const user = await Users.findOne({ _id: req.user._id });
+  const user = await User.findOne({ _id: req.user._id });
 
   // Check logged in User same as password post creator
   if (postExist.user_ID !== req.user._id)
@@ -99,7 +103,7 @@ router.patch("/:id", verify, async (req, res) => {
 });
 
 // Delete existed password post from DB
-router.delete("/:id", verify, async (req, res) => {
+router.delete("/:id", verify, async (req: RequestType, res) => {
   // Check request delete password post exist
   const existedPost = await Passwords.findOne({ _id: req.params.id });
   if (!existedPost) return res.status(400).send("No Post Find");

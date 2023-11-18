@@ -1,6 +1,6 @@
-const { encryptList } = require("./cryptoList");
+import { encryptList } from "./cryptoList";
 
-const createObject = (initVector, data) => {
+const createObject = (initVector: string, data: any) => {
   // Get Key --> field need to update
   const fields = Object.keys(data);
 
@@ -16,10 +16,11 @@ const createObject = (initVector, data) => {
 
   // Loop thought the encrypted data array and push to obj
   for (const ii in encryptedArray) {
+    // @ts-ignore: Unreachable code error
     updateObj[fields[ii]] = encryptedArray[ii];
   }
 
   return updateObj;
 };
 
-module.exports = { createObject };
+export { createObject };

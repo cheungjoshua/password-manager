@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+import crypto from "crypto";
 
 // crypto algorithm
 const algorithm = "aes-256-gcm";
@@ -7,7 +7,7 @@ const algorithm = "aes-256-gcm";
 const secretKey = crypto.scryptSync(process.env.SECURITY_KEY, "salt", 32);
 
 // Decrypt individual data inside the loop
-const decryptData = (initVector, data) => {
+const decryptData = (initVector: string, data: any) => {
   const [encryptedData, authTag] = data.split("|");
   const decipher = crypto.createDecipheriv(
     algorithm,
@@ -21,7 +21,7 @@ const decryptData = (initVector, data) => {
 };
 
 // Decrypt the password list
-const decryptList = (initVector, data) => {
+const decryptList = (initVector: string, data: any) => {
   for (const item of data) {
     item.app_name = decryptData(initVector, item.app_name);
     item.app_username = decryptData(initVector, item.app_username);
@@ -31,7 +31,7 @@ const decryptList = (initVector, data) => {
 };
 
 // Encrypt the password list
-const encryptData = (initVector, data) => {
+const encryptData = (initVector: string, data: any) => {
   const cipher = crypto.createCipheriv(
     algorithm,
     secretKey,
@@ -44,11 +44,11 @@ const encryptData = (initVector, data) => {
 };
 
 // Encrypt the input data for Password update
-const encryptList = (initVector, dataArray) => {
+const encryptList = (initVector: string, dataArray: any): [] => {
   for (const ii in dataArray) {
     dataArray[ii] = encryptData(initVector, dataArray[ii]);
   }
   return dataArray;
 };
 
-module.exports = { encryptData, decryptList, decryptData, encryptList };
+export { encryptData, decryptList, decryptData, encryptList };
