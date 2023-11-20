@@ -1,17 +1,15 @@
-import express, { Request } from "express";
+import express from "express";
 const router = express.Router();
 import { Passwords } from "../models/Passwords";
 import { User } from "../models/User";
 import { validatePost } from "../helpers/validation";
 import { encryptData, decryptList } from "../helpers/cryptoList";
 import { createObject } from "../helpers/createUpdateObject";
+import { RequestType } from "types/api";
+import { PasswordType } from "types/password";
 
 // middle ware - verify json web token
 const verify = require("../middleware/verifyToken");
-
-interface RequestType extends Request {
-  user?: any;
-}
 
 // Get all the passwords post from Logged In User
 router.get("/", verify, async (req: RequestType, res) => {

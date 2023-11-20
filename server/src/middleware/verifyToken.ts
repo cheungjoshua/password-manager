@@ -1,9 +1,6 @@
 import jwt from "jsonwebtoken";
-import { Response, Request, NextFunction } from "express";
-
-interface RequestType extends Request {
-  user?: any;
-}
+import { Response, NextFunction } from "express";
+import { RequestType } from "types/api";
 
 module.exports = function (
   req: RequestType,
