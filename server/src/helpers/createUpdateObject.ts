@@ -10,7 +10,12 @@ const createObject = (initVector: string, data: any) => {
   // Set empty obj for return
   const updateObj = {};
 
-  // Use encryptList function encrypt the field value need to update
+  // ******** REFACTOR ****************
+  // create new updateObj type as PasswordType.collections obj
+  // Use encrypData instead encryList
+  // Remove encryptList function
+  // should only return a single obj not array
+
   const encryptedArray = encryptList(initVector, fieldValues);
   // console.log(encryptedArray);
 

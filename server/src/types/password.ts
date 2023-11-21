@@ -1,10 +1,10 @@
-export interface PasswordType {
-  user_ID: String;
+export type PasswordType = {
+  user_ID: string;
   collections: [
     {
-      app_name: String;
-      app_username: String;
-      app_password: String;
+      app_name: string;
+      app_username: string;
+      app_password: string;
     }
   ];
-}
+};

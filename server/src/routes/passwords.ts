@@ -14,23 +14,26 @@ const verify = require("../middleware/verifyToken");
 // Get all the passwords post from Logged In User
 router.get("/", verify, async (req: RequestType, res) => {
   const userID = req.user._id;
-  const passwordsList = await Passwords.find({ user_ID: userID });
+  const passwordsCollection = await Passwords.findOne({ user_ID: userID });
 
   // Send msg to front if no passwords list find
-  if (passwordsList.length === 0)
+  if (!passwordsCollection)
     return res.status(200).send("Not passwords list find");
 
   try {
     const user = await User.findOne({ _id: userID });
     const user_IV = await user.user_IV;
 
-    let decryptedList = decryptList(user_IV, passwordsList);
+    // TODO: Refactor follow helper function *****
+    let decryptedList = decryptList(user_IV, passwordsCollection);
     res.status(200).json({ decryptedList });
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
   }
 });
+
+// TODO: Refactor following code to new schema *****
 
 // Create New password post and save to DB
 router.post("/", verify, async (req: RequestType, res) => {
@@ -71,6 +74,11 @@ router.post("/", verify, async (req: RequestType, res) => {
 // Edit && Update existed password from DB
 router.patch("/:id", verify, async (req: RequestType, res) => {
   // Check Password post is exist
+  //*** TODO: REFACTOR
+  // get get user id, and find collection with userID,
+  // find collection with collection_id
+  // update encrypt data along collection_id with "update query"  */
+
   const postExist = await Passwords.findOne({ _id: req.params.id });
   if (!postExist) return res.status(400);
 
@@ -86,6 +94,7 @@ router.patch("/:id", verify, async (req: RequestType, res) => {
   const encryptedUpdateObj = createObject(user.user_IV, req.body);
 
   try {
+    //TODO: change query using "findandupdate"
     const updatedPost = await Passwords.updateOne(
       { _id: req.params.id },
       { $set: encryptedUpdateObj }
