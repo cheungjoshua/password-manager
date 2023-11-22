@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { PasswordType } from "types/password";
+import { PasswordType } from "types";
 
 const PasswordSchema = new mongoose.Schema<PasswordType>({
   user_ID: {

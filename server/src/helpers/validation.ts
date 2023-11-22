@@ -1,7 +1,12 @@
-const Joi = require("joi");
+import Joi from "joi";
+import { PasswordCollectionType } from "../types";
 
 // Validate sign up
-const validateSignUp = (data: any) => {
+const validateSignUp = (data: {
+  email: string;
+  username: string;
+  password: string;
+}) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required().email(),
     username: Joi.string().min(6).required(),
@@ -11,7 +16,7 @@ const validateSignUp = (data: any) => {
 };
 
 // Validate Login
-const validateLogin = (data: any) => {
+const validateLogin = (data: { email: string; password: string }) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).required(),
@@ -20,8 +25,9 @@ const validateLogin = (data: any) => {
 };
 
 // Validate Password Post
-const validatePost = (data: any) => {
+const validatePost = (data: PasswordCollectionType) => {
   const schema = Joi.object({
+    collection_id: Joi.string(),
     app_name: Joi.string().min(3).required(),
     app_username: Joi.string().min(6).required().email(),
     app_password: Joi.string().min(8).required(),

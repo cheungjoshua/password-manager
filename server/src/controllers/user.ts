@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-import { RequestType } from "../types/api";
+import { RequestType } from "../types";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

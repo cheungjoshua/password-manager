@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { PasswordType } from "types/password";
+import { PasswordType } from "../types";
 
 // crypto algorithm
 const algorithm = "aes-256-gcm";

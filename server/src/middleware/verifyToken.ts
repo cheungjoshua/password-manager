@@ -1,12 +1,8 @@
 import jwt from "jsonwebtoken";
 import { Response, NextFunction } from "express";
-import { RequestType } from "types/api";
+import { RequestType } from "types";
 
-module.exports = function (
-  req: RequestType,
-  res: Response,
-  next: NextFunction
-) {
+export default (req: RequestType, res: Response, next: NextFunction) => {
   const token = req.header("access-token");
   if (!token) return res.status(401).send("Access Denied");
 
