@@ -1,10 +1,10 @@
 import express from "express";
 const router = express.Router();
-import { Passwords } from "../models/Passwords";
+import { Password } from "../models/Password";
 import { User } from "../models/User";
 import { validatePost } from "../helpers/validation";
 import { encryptData, decryptList } from "../helpers/cryptoList";
-import { createObject } from "../helpers/createUpdateObject";
+import { createUpdateObj } from "../helpers/createUpdateObject";
 import { RequestType } from "types/api";
 import { PasswordType } from "types/password";
 
@@ -14,7 +14,7 @@ const verify = require("../middleware/verifyToken");
 // Get all the passwords post from Logged In User
 router.get("/", verify, async (req: RequestType, res) => {
   const userID = req.user._id;
-  const passwordsCollection = await Passwords.findOne({ user_ID: userID });
+  const passwordsCollection = await Password.findOne({ user_ID: userID });
 
   // Send msg to front if no passwords list find
   if (!passwordsCollection)
@@ -50,13 +50,13 @@ router.post("/", verify, async (req: RequestType, res) => {
 
   // Check is the app_name is exist
   const encryptAppName = encryptData(user_IV, app_name);
-  const appExisted = await Passwords.findOne({ app_name: encryptAppName });
+  const appExisted = await Password.findOne({ app_name: encryptAppName });
   if (appExisted) return res.status(200).send("App already exists");
 
   // Passed all checks. Save post to DB
 
   // Create password post, encrypt data
-  const passwordPost = new Passwords({
+  const passwordPost = new Password({
     user_ID: userID,
     app_name: encryptData(user_IV, app_name),
     app_username: encryptData(user_IV, app_username),
@@ -73,13 +73,12 @@ router.post("/", verify, async (req: RequestType, res) => {
 
 // Edit && Update existed password from DB
 router.patch("/:id", verify, async (req: RequestType, res) => {
-  // Check Password post is exist
-  //*** TODO: REFACTOR
-  // get get user id, and find collection with userID,
-  // find collection with collection_id
-  // update encrypt data along collection_id with "update query"  */
+  // ** REFACTOR***
+  // either using req.params.id/ req.body.id
+  // use it as collection_id *****
 
-  const postExist = await Passwords.findOne({ _id: req.params.id });
+  // Check Password post is exist
+  const postExist = await Password.findOne({ _id: req.params.id });
   if (!postExist) return res.status(400);
 
   // Password exist, do follow
@@ -91,17 +90,33 @@ router.patch("/:id", verify, async (req: RequestType, res) => {
     return res.status(400).send("User Request Denied");
 
   // Encrypt update data
-  const encryptedUpdateObj = createObject(user.user_IV, req.body);
+  const encryptedUpdateObj = createUpdateObj(user.user_IV, req.body);
 
   try {
+    //*** TODO: REFACTOR
+    // get get user id, and find collection with userID,
+    // find collection with collection_id
+    // update/replace encrypt data along collection_id with "update query"  */
+
+    // EX:
+    // model.updateOne(
+    //     { _id: 1, "items.id": "2" },
+    //     {
+    //         $set: {
+    //             "items.$.name": "yourValue",
+    //             "items.$.value": "yourvalue",
+    //          }
+    //     }
+    // )
+
     //TODO: change query using "findandupdate"
-    const updatedPost = await Passwords.updateOne(
+    const updatedPost = await Password.updateOne(
       { _id: req.params.id },
       { $set: encryptedUpdateObj }
     );
 
     // Get the updated password post for respond to client
-    const updatedPassword = await Passwords.findOne({ _id: req.params.id });
+    const updatedPassword = await Password.findOne({ _id: req.params.id });
 
     res.status(200).json({ updatedPassword });
   } catch (err) {
@@ -112,7 +127,7 @@ router.patch("/:id", verify, async (req: RequestType, res) => {
 // Delete existed password post from DB
 router.delete("/:id", verify, async (req: RequestType, res) => {
   // Check request delete password post exist
-  const existedPost = await Passwords.findOne({ _id: req.params.id });
+  const existedPost = await Password.findOne({ _id: req.params.id });
   if (!existedPost) return res.status(400).send("No Post Find");
 
   // Check logged in User same as Password post creator
@@ -121,11 +136,11 @@ router.delete("/:id", verify, async (req: RequestType, res) => {
 
   // Passed all check, do follow
   try {
-    const deletedPassword = await Passwords.remove({ _id: req.params.id });
+    const deletedPassword = await Password.remove({ _id: req.params.id });
     res.status(200).send("removed Password");
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-module.exports = router;
+export default router;

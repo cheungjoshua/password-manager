@@ -28,6 +28,6 @@ const PasswordSchema = new mongoose.Schema<PasswordType>({
   ],
 });
 
-const Passwords = mongoose.model("Passwords", PasswordSchema);
+const Password = mongoose.model("Password", PasswordSchema);
 
-export { Passwords };
+export { Password };

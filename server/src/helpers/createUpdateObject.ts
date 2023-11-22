@@ -1,6 +1,10 @@
 import { encryptList } from "./cryptoList";
 
-const createObject = (initVector: string, data: any) => {
+//*** REFACTOR****
+// agrument -> collection_id , data : 3 fields
+//*/
+
+const createUpdateObj = (initVector: string, data: any) => {
   // Get Key --> field need to update
   const fields = Object.keys(data);
 
@@ -16,16 +20,16 @@ const createObject = (initVector: string, data: any) => {
   // Remove encryptList function
   // should only return a single obj not array
 
-  const encryptedArray = encryptList(initVector, fieldValues);
+  // const encryptedArray = encryptList(initVector, fieldValues);
   // console.log(encryptedArray);
 
   // Loop thought the encrypted data array and push to obj
-  for (const ii in encryptedArray) {
-    // @ts-ignore: Unreachable code error
-    updateObj[fields[ii]] = encryptedArray[ii];
-  }
+  // for (const ii in encryptedArray) {
+  //   // @ts-ignore: Unreachable code error
+  //   updateObj[fields[ii]] = encryptedArray[ii];
+  // }
 
   return updateObj;
 };
 
-export { createObject };
+export { createUpdateObj };
