@@ -1,9 +1,9 @@
 import { Response } from "express";
-
-import { RequestType } from "../types";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+import { RequestType } from "../types";
 import { User } from "../models/User";
 import { validateSignUp, validateLogin } from "../helpers/validation";
 

@@ -25,19 +25,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Import Routes
 import routes from "./routes";
-// import usersRoute from "./routes/users";
-//import passwordsRoute from "./routes/passwords";
 
 // Use Imported Routes
 app.use("/", routes());
-// app.use("/users", usersRoute);
-//app.use("/api/passwords", passwordsRoute);
-
-// Testing Route
-// app.get("/", (req, res) => {
-//   res.send("Connected");
-//   console.log("OK");
-// });
 
 // Mongoose Connect to DB
 mongoose
