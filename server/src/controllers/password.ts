@@ -59,7 +59,7 @@ export const createPassword = async (req: RequestType, res: Response) => {
   };
 
   try {
-    const updatedPassword = Password.findOneAndUpdate(
+    const createdPassword = Password.findOneAndUpdate(
       { user_ID: userID },
       {
         $push: {
@@ -69,7 +69,7 @@ export const createPassword = async (req: RequestType, res: Response) => {
       { new: true, upsert: true }
     );
 
-    res.status(200).send(updatedPassword);
+    res.status(200).send(createdPassword);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -115,7 +115,7 @@ export const updatePassword = async (req: RequestType, res: Response) => {
       { new: true }
     );
 
-    res.status(200).send(updatedPassword);
+    res.status(200).json(updatedPassword);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -136,7 +136,7 @@ export const deletePassword = async (req: RequestType, res: Response) => {
     return res.status(400).send("Collection Not Find!");
 
   try {
-    await Password.findOneAndUpdate(
+    const updatedPasswordCollection = await Password.findOneAndUpdate(
       { user_ID: userID, _id: _id },
       {
         $pull: {

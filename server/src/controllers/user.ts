@@ -74,3 +74,13 @@ export const singup = async (req: RequestType, res: Response) => {
 export const logout = async () => {};
 
 export const deleteUser = async (req: RequestType, res: Response) => {};
+
+// **** For test only, remove when project complete
+export const getAllUsers = async (req: RequestType, res: Response) => {
+  try {
+    const allUsers = User.find();
+    res.status(200).json(allUsers);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};

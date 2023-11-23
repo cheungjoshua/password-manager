@@ -22,6 +22,8 @@ const decryptData = (initVector: string, data: string) => {
 };
 
 // Decrypt the password list
+// **** it is array of data
+// need refactor !! ******
 const decryptList = (initVector: string, data: PasswordType) => {
   for (const item of data.collections) {
     item.app_name = decryptData(initVector, item.app_name);
