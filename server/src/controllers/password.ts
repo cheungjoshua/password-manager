@@ -81,7 +81,8 @@ export const updatePassword = async (req: RequestType, res: Response) => {
   if (error) return res.status(400).send(error);
 
   // Destruct req.body
-  const { app_name, app_username, app_password, collection_id, _id } = req.body;
+  const collectionId = new mongoose.Types.ObjectId(req.params.id);
+  const { app_name, app_username, app_password, _id } = req.body;
 
   // Get initVector from DB
   const userID = req.user._id;
@@ -91,13 +92,13 @@ export const updatePassword = async (req: RequestType, res: Response) => {
   const existedApp = await Password.findOne({
     _id: _id,
     user_ID: userID,
-    collection_id: collection_id,
+    collection_id: collectionId,
   });
   if (!existedApp) return res.status(402).send("App Not Find!");
 
   // Create password post, encrypt data
   const updatedCollection: PasswordCollectionType = {
-    collection_id: req.body.collection_id,
+    collection_id: collectionId,
     app_name: encryptData(user_IV, app_name),
     app_username: encryptData(user_IV, app_username),
     app_password: encryptData(user_IV, app_password),
@@ -124,11 +125,12 @@ export const deletePassword = async (req: RequestType, res: Response) => {
   const userID = req.user._id;
   // Destruct req.body
   const { collection_id, _id } = req.body;
+  const collectionId = new mongoose.Types.ObjectId(req.params.id);
 
   // Check password collection is exist
   const existedPasswordCollection = await Password.findOne({
     _id: _id,
-    collection_id: collection_id,
+    collection_id: collectionId,
   });
   if (!existedPasswordCollection)
     return res.status(400).send("Collection Not Find!");
