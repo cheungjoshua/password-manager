@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { PasswordType } from "../types";
+import { PasswordCollectionType, PasswordType } from "../types";
 
 // crypto algorithm
 const algorithm = "aes-256-gcm";
@@ -22,10 +22,8 @@ const decryptData = (initVector: string, data: string) => {
 };
 
 // Decrypt the password list
-// **** it is array of data
-// need refactor !! ******
-const decryptList = (initVector: string, data: PasswordType) => {
-  for (const item of data.collections) {
+const decryptList = (initVector: string, data: PasswordCollectionType[]) => {
+  for (const item of data) {
     item.app_name = decryptData(initVector, item.app_name);
     item.app_username = decryptData(initVector, item.app_username);
     item.app_password = decryptData(initVector, item.app_password);
