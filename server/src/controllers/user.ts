@@ -35,7 +35,10 @@ export const login = async (req: RequestType, res: Response) => {
   //////// Will Refactor in the future********
   /////// Will use use http cookie
 
-  res.status(200).cookie("access-token", accessToken).send("User log In");
+  res
+    .status(200)
+    .cookie("access-token", accessToken, { httpOnly: true })
+    .send("User log In");
 
   // res.header("access-token", accessToken).json({ accessToken });
 };
