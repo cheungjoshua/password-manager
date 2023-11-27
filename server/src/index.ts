@@ -4,7 +4,7 @@ const app = express();
 import cors from "cors";
 import morgan from "morgan";
 import mongoose from "mongoose";
-import cookieSession from "cookie-session";
+import cookieParser from "cookie-parser";
 
 // Dot Env
 require("dotenv/config");
@@ -14,14 +14,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Use cookie-session
-// app.use(
-//   cookieSession({
-//     name: "session",
-//     key: ["key1", "key2"],
-//   })
-// );
+app.use(cookieParser());
 
 // Import Routes
 import routes from "./routes";

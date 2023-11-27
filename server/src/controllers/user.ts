@@ -33,9 +33,11 @@ export const login = async (req: RequestType, res: Response) => {
 
   //////// ******* attention *********
   //////// Will Refactor in the future********
-  /////// Will use set cookie with httpOnly, secure, sameSite
-  /////// Will need to install cookie-parse to do the job
-  res.header("access-token", accessToken).json({ accessToken });
+  /////// Will use use http cookie
+
+  res.status(200).cookie("access-token", accessToken).send("User log In");
+
+  // res.header("access-token", accessToken).json({ accessToken });
 };
 
 export const singup = async (req: RequestType, res: Response) => {
@@ -67,6 +69,7 @@ export const singup = async (req: RequestType, res: Response) => {
     const saveSignUpUser = await user.save();
     res.send(saveSignUpUser);
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 };
@@ -78,7 +81,8 @@ export const deleteUser = async (req: RequestType, res: Response) => {};
 // **** For test only, remove when project complete
 export const getAllUsers = async (req: RequestType, res: Response) => {
   try {
-    const allUsers = User.find();
+    const allUsers = await User.find();
+
     res.status(200).json(allUsers);
   } catch (err) {
     res.status(400).json(err);

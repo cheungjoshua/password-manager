@@ -3,7 +3,8 @@ import { Response, NextFunction } from "express";
 import { RequestType } from "types";
 
 export default (req: RequestType, res: Response, next: NextFunction) => {
-  const token = req.header("access-token");
+  const token = req.cookies["access-token"];
+
   if (!token) return res.status(401).send("Access Denied");
 
   try {

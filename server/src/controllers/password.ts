@@ -9,17 +9,18 @@ import { RequestType, PasswordCollectionType } from "../types";
 
 export const getPasswords = async (req: RequestType, res: Response) => {
   const userID = req.user._id;
-  const { collections } = await Password.findOne({ user_ID: userID });
+  const passwordsCollection = await Password.findOne({ user_ID: userID });
 
   // Send msg to front if no passwords list find
-  if (!collections) return res.status(200).send("Not passwords list find");
+  if (!passwordsCollection)
+    return res.status(200).send("Not passwords list find");
 
   try {
     const user = await User.findOne({ _id: userID });
     const user_IV = await user.user_IV;
 
     // TODO: Refactor follow helper function *****
-    let decryptedList = decryptList(user_IV, collections);
+    let decryptedList = decryptList(user_IV, passwordsCollection.collections);
     res.status(200).json({ decryptedList });
   } catch (err) {
     console.log(err);
