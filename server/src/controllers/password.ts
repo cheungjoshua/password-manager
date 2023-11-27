@@ -41,18 +41,18 @@ export const createPassword = async (req: RequestType, res: Response) => {
 
   // Check is the app_name is exist
   const encryptAppName = encryptData(user_IV, app_name);
-  const existedApp = await Password.findOne({
+  const isAppExist = await Password.findOne({
     user_ID: userID,
     app_name: encryptAppName,
   });
-  if (existedApp) return res.status(200).send("App already exists");
+  if (isAppExist) return res.status(200).send("App already exists");
 
   // Passed all checks. Save post to DB
 
   // Create password post, encrypt data
   const newCollection: PasswordCollectionType = {
     collection_id: new mongoose.Types.ObjectId(),
-    app_name: encryptData(user_IV, app_name),
+    app_name: encryptAppName,
     app_username: encryptData(user_IV, app_username),
     app_password: encryptData(user_IV, app_password),
   };
@@ -88,12 +88,12 @@ export const updatePassword = async (req: RequestType, res: Response) => {
   const { user_IV } = await User.findOne({ _id: userID });
 
   // Check is the app_name is exist
-  const existedApp = await Password.findOne({
+  const isAppExist = await Password.findOne({
     _id: _id,
     user_ID: userID,
     collection_id: collectionId,
   });
-  if (!existedApp) return res.status(402).send("App Not Find!");
+  if (!isAppExist) return res.status(402).send("App Not Find!");
 
   // Create password post, encrypt data
   const updatedCollection: PasswordCollectionType = {
@@ -127,11 +127,11 @@ export const deletePassword = async (req: RequestType, res: Response) => {
   const collectionId = new mongoose.Types.ObjectId(req.params.id);
 
   // Check password collection is exist
-  const existedPasswordCollection = await Password.findOne({
+  const isPasswordCollectionExist = await Password.findOne({
     _id: _id,
     collection_id: collectionId,
   });
-  if (!existedPasswordCollection)
+  if (!isPasswordCollectionExist)
     return res.status(400).send("Collection Not Find!");
 
   try {
