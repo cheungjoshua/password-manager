@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { PasswordType } from "types";
 
 const PasswordSchema = new mongoose.Schema<PasswordType>({
-  user_ID: {
+  user_id: {
     type: String,
     require: true,
   },

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export type PasswordType = {
-  user_ID: string;
+  user_id: string;
   collections: [
     {
       collection_id: mongoose.Types.ObjectId;

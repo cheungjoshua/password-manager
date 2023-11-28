@@ -37,7 +37,7 @@ export const login = async (req: RequestType, res: Response) => {
       httpOnly: true,
       secure: true,
     })
-    .send("User log In");
+    .json({ existUser });
 };
 
 export const singup = async (req: RequestType, res: Response) => {

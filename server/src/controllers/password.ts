@@ -9,7 +9,7 @@ import { RequestType, PasswordCollectionType } from "../types";
 
 export const getPasswords = async (req: RequestType, res: Response) => {
   const userID = req.user._id;
-  const passwordsCollection = await Password.findOne({ user_ID: userID });
+  const passwordsCollection = await Password.findOne({ user_id: userID });
 
   // Send msg to front if no passwords list find
   if (!passwordsCollection)
@@ -21,6 +21,7 @@ export const getPasswords = async (req: RequestType, res: Response) => {
 
     // TODO: Refactor follow helper function *****
     let decryptedList = decryptList(user_IV, passwordsCollection.collections);
+
     res.status(200).json({ decryptedList });
   } catch (err) {
     console.log(err);
@@ -33,20 +34,21 @@ export const createPassword = async (req: RequestType, res: Response) => {
   const { error } = validatePost(req.body);
   if (error) return res.status(400).send(error);
 
+  const userID = req.user._id;
+
   // Destruct req.body
   const { app_name, app_username, app_password } = req.body;
 
   // Get initVector from DB
-  const userID = req.user._id;
   const { user_IV } = await User.findOne({ _id: userID });
 
   // Check is the app_name is exist
   const encryptAppName = encryptData(user_IV, app_name);
   const isAppExist = await Password.findOne({
-    user_ID: userID,
-    app_name: encryptAppName,
+    "collections.app_name": encryptAppName,
+    user_id: userID,
   });
-  if (isAppExist) return res.status(200).send("App already exists");
+  if (isAppExist) return res.status(403).send("App Already Exist");
 
   // Passed all checks. Save post to DB
 
@@ -59,8 +61,8 @@ export const createPassword = async (req: RequestType, res: Response) => {
   };
 
   try {
-    const createdPassword = Password.findOneAndUpdate(
-      { user_ID: userID },
+    const createdPassword = await Password.findOneAndUpdate(
+      { user_id: userID },
       {
         $push: {
           collections: newCollection,
@@ -69,8 +71,9 @@ export const createPassword = async (req: RequestType, res: Response) => {
       { new: true, upsert: true }
     );
 
-    res.status(200).send(createdPassword);
+    res.status(200).json(createdPassword);
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 };
@@ -91,7 +94,7 @@ export const updatePassword = async (req: RequestType, res: Response) => {
   // Check is the app_name is exist
   const isAppExist = await Password.findOne({
     _id: _id,
-    user_ID: userID,
+    user_id: userID,
     collection_id: collectionId,
   });
   if (!isAppExist) return res.status(402).send("App Not Find!");
@@ -106,7 +109,7 @@ export const updatePassword = async (req: RequestType, res: Response) => {
 
   try {
     const updatedPassword = await Password.findOneAndUpdate(
-      { _id: _id, user_ID: userID, collection_id: req.body.collection_id },
+      { _id: _id, user_id: userID, collection_id: req.body.collection_id },
       {
         $set: {
           collections: updatedCollection,
@@ -124,29 +127,30 @@ export const updatePassword = async (req: RequestType, res: Response) => {
 export const deletePassword = async (req: RequestType, res: Response) => {
   const userID = req.user._id;
   // Destruct req.body
-  const { collection_id, _id } = req.body;
+
   const collectionId = new mongoose.Types.ObjectId(req.params.id);
 
   // Check password collection is exist
   const isPasswordCollectionExist = await Password.findOne({
-    _id: _id,
-    collection_id: collectionId,
+    "collections.collection_id": collectionId,
+    user_id: userID,
   });
   if (!isPasswordCollectionExist)
     return res.status(400).send("Collection Not Find!");
 
   try {
-    const updatedPasswordCollection = await Password.findOneAndUpdate(
-      { user_ID: userID, _id: _id },
+    const updatedPasswordCollection = await Password.updateOne(
+      { user_id: userID },
       {
         $pull: {
           collections: {
-            collection_id: collection_id,
+            collection_id: collectionId,
           },
         },
       },
-      { safe: true, multi: false }
+      { safe: true, strict: false }
     );
+    res.status(200).json(updatedPasswordCollection);
   } catch (err) {
     res.status(400).json(err);
   }
