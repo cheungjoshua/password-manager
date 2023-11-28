@@ -31,16 +31,13 @@ export const login = async (req: RequestType, res: Response) => {
     { expiresIn: "1h" }
   );
 
-  //////// ******* attention *********
-  //////// Will Refactor in the future********
-  /////// Will use use http cookie
-
   res
     .status(200)
-    .cookie("access-token", accessToken, { httpOnly: true })
+    .cookie("access-token", accessToken, {
+      httpOnly: true,
+      secure: true,
+    })
     .send("User log In");
-
-  // res.header("access-token", accessToken).json({ accessToken });
 };
 
 export const singup = async (req: RequestType, res: Response) => {
@@ -48,9 +45,9 @@ export const singup = async (req: RequestType, res: Response) => {
   if (error) return res.status(400).send(error);
 
   // Check if user is exist
-  const userExist = await User.findOne({ username: req.body.username });
+  const isUserExist = await User.findOne({ email: req.body.email });
 
-  if (userExist) return res.status(200).send("Email already exists");
+  if (isUserExist) return res.status(200).send("Email already exists");
 
   // Hash password with salt if password is valid
   const salt = await bcrypt.genSalt(10);
@@ -77,7 +74,13 @@ export const singup = async (req: RequestType, res: Response) => {
   }
 };
 
-export const logout = async () => {};
+export const logout = async (req: RequestType, res: Response) => {
+  const isUserExist = await User.findOne({ _id: req.params.id });
+
+  if (!isUserExist) return res.status(400).send("User Not Find");
+
+  res.clearCookie("access-token").send("User logged Out");
+};
 
 export const deleteUser = async (req: RequestType, res: Response) => {};
 
