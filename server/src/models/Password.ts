@@ -8,10 +8,6 @@ const PasswordSchema = new mongoose.Schema<PasswordType>({
   },
   collections: [
     {
-      collection_id: {
-        type: mongoose.Types.ObjectId,
-        require: true,
-      },
       app_name: {
         type: String,
         require: true,

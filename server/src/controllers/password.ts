@@ -20,9 +20,9 @@ export const getPasswords = async (req: RequestType, res: Response) => {
     const user_IV = await user.user_IV;
 
     // TODO: Refactor follow helper function *****
-    let decryptedList = decryptList(user_IV, passwordsCollection.collections);
+    let passwordsList = decryptList(user_IV, passwordsCollection.collections);
 
-    res.status(200).json({ decryptedList });
+    res.status(200).json({ passwordsList });
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
@@ -54,7 +54,6 @@ export const createPassword = async (req: RequestType, res: Response) => {
 
   // Create password post, encrypt data
   const newCollection: PasswordCollectionType = {
-    collection_id: new mongoose.Types.ObjectId(),
     app_name: encryptAppName,
     app_username: encryptData(user_IV, app_username),
     app_password: encryptData(user_IV, app_password),
@@ -101,7 +100,7 @@ export const updatePassword = async (req: RequestType, res: Response) => {
 
   // Create password post, encrypt data
   const updatedCollection: PasswordCollectionType = {
-    collection_id: collectionId,
+    _id: collectionId,
     app_name: encryptData(user_IV, app_name),
     app_username: encryptData(user_IV, app_username),
     app_password: encryptData(user_IV, app_password),
@@ -132,7 +131,7 @@ export const deletePassword = async (req: RequestType, res: Response) => {
 
   // Check password collection is exist
   const isPasswordCollectionExist = await Password.findOne({
-    "collections.collection_id": collectionId,
+    "collections._id": collectionId,
     user_id: userID,
   });
   if (!isPasswordCollectionExist)
@@ -144,7 +143,7 @@ export const deletePassword = async (req: RequestType, res: Response) => {
       {
         $pull: {
           collections: {
-            collection_id: collectionId,
+            _id: collectionId,
           },
         },
       },
