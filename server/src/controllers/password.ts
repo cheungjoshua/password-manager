@@ -84,7 +84,7 @@ export const updatePassword = async (req: RequestType, res: Response) => {
 
   // Destruct req.body
   const collectionId = new mongoose.Types.ObjectId(req.params.id);
-  const { app_name, app_username, app_password, _id } = req.body;
+  const { app_name, app_username, app_password } = req.body;
 
   // Get initVector from DB
   const userID = req.user._id;
@@ -92,9 +92,8 @@ export const updatePassword = async (req: RequestType, res: Response) => {
 
   // Check is the app_name is exist
   const isAppExist = await Password.findOne({
-    _id: _id,
     user_id: userID,
-    collection_id: collectionId,
+    "collections._id": collectionId,
   });
   if (!isAppExist) return res.status(402).send("App Not Find!");
 
@@ -108,10 +107,10 @@ export const updatePassword = async (req: RequestType, res: Response) => {
 
   try {
     const updatedPassword = await Password.findOneAndUpdate(
-      { _id: _id, user_id: userID, collection_id: req.body.collection_id },
+      { user_id: userID, "collections._id": collectionId },
       {
         $set: {
-          collections: updatedCollection,
+          collections: updatedCollection, // need to set by key value pair
         },
       },
       { new: true }
