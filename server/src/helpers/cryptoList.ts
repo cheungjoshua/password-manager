@@ -44,16 +44,4 @@ const encryptData = (initVector: string, data: string) => {
   return [encryptData, authTag].join("|");
 };
 
-// Encrypt the input data for Password update
-// ** it should never use *** !!!!!!
-const encryptList = (initVector: string, dataArray: PasswordType[]): [] => {
-  // for (const obj in dataArray.collections) {
-  //   for (const key in dataArray.collections[obj]){
-  //     dataArray.collections[obj][key] = encryptData(initVector, dataArray.collections[obj][key])
-  //   }
-  //  ;
-  // }
-  return [];
-};
-
-export { encryptData, decryptList, decryptData, encryptList };
+export { encryptData, decryptList, decryptData };

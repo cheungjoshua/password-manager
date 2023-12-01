@@ -19,7 +19,6 @@ export const getPasswords = async (req: RequestType, res: Response) => {
     const user = await User.findOne({ _id: userID });
     const user_IV = await user.user_IV;
 
-    // TODO: Refactor follow helper function *****
     let passwordsList = decryptList(user_IV, passwordsCollection.collections);
 
     res.status(200).json({ passwordsList });
@@ -83,7 +82,6 @@ export const updatePassword = async (req: RequestType, res: Response) => {
   if (error) return res.status(400).send(error);
 
   // Destruct req.body
-
   const { app_name, app_username, app_password, _id } = req.body;
   const collectionId = _id;
 
@@ -98,14 +96,6 @@ export const updatePassword = async (req: RequestType, res: Response) => {
   });
   if (!isAppExist) return res.status(402).send("App Not Find!");
 
-  // Create password post, encrypt data
-  const updatedCollection: PasswordCollectionType = {
-    _id: collectionId,
-    app_name: encryptData(user_IV, app_name),
-    app_username: encryptData(user_IV, app_username),
-    app_password: encryptData(user_IV, app_password),
-  };
-
   try {
     const updatedPassword = await Password.updateOne(
       { user_id: userID, "collections._id": collectionId },
@@ -113,7 +103,7 @@ export const updatePassword = async (req: RequestType, res: Response) => {
         $set: {
           "collections.$.app_name": encryptData(user_IV, app_name),
           "collections.$.app_username": encryptData(user_IV, app_username),
-          "collections.$.app_password": encryptData(user_IV, app_password), // need to set by key value pair
+          "collections.$.app_password": encryptData(user_IV, app_password),
         },
       }
     );
