@@ -28,7 +28,7 @@ const validateLogin = (data: { email: string; password: string }) => {
 const validatePost = (data: PasswordCollectionType) => {
   const schema = Joi.object({
     user_id: Joi.string(),
-    collection_id: Joi.string(),
+    _id: Joi.string(),
     app_name: Joi.string().min(3).required(),
     app_username: Joi.string().min(6).required().email(),
     app_password: Joi.string().min(8).required(),

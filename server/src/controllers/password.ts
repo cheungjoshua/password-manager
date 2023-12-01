@@ -83,8 +83,9 @@ export const updatePassword = async (req: RequestType, res: Response) => {
   if (error) return res.status(400).send(error);
 
   // Destruct req.body
-  const collectionId = new mongoose.Types.ObjectId(req.params.id);
-  const { app_name, app_username, app_password } = req.body;
+
+  const { app_name, app_username, app_password, _id } = req.body;
+  const collectionId = _id;
 
   // Get initVector from DB
   const userID = req.user._id;
@@ -106,18 +107,20 @@ export const updatePassword = async (req: RequestType, res: Response) => {
   };
 
   try {
-    const updatedPassword = await Password.findOneAndUpdate(
+    const updatedPassword = await Password.updateOne(
       { user_id: userID, "collections._id": collectionId },
       {
         $set: {
-          collections: updatedCollection, // need to set by key value pair
+          "collections.$.app_name": encryptData(user_IV, app_name),
+          "collections.$.app_username": encryptData(user_IV, app_username),
+          "collections.$.app_password": encryptData(user_IV, app_password), // need to set by key value pair
         },
-      },
-      { new: true }
+      }
     );
 
     res.status(200).json(updatedPassword);
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 };
