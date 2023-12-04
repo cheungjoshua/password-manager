@@ -1,6 +1,6 @@
 # PASSWORD MANAGER (In Progress)
 
-Password Manager web app using MERN stack(MongoDB, Express, React, Node)
+Password Manager web app using MERN stack(MongoDB, Express, Nuxt, Node)
 
 ## App feature
 
@@ -24,7 +24,7 @@ In this project build. I will learn to use node built encrypt and decrypt functi
 
 ## Dependency
 
-- ReactJS
+- NuxtJS
 - NodeJS
 - Express
 - Axios
