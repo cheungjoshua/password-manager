@@ -16,6 +16,8 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "sass": "^1.69.5"
+    "@trpc/client": "^10.44.1",
+    "sass": "^1.69.5",
+    "trpc-nuxt": "^0.10.15"
   }
 }
