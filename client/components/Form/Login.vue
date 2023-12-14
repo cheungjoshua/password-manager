@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 <template>
-  <div class="loginPageWrapper">
-    <FormLogin />
+  <div>
+    <p>login</p>
   </div>
 </template>
 <style lang="scss" scoped></style>
