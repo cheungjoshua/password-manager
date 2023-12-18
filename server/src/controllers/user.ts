@@ -25,6 +25,8 @@ export const login = async (req: RequestType, res: Response) => {
   // IF password correct
 
   // Create JWT token
+  // **** Refactor future to User email from user id
+
   const accessToken = jwt.sign(
     { _id: existUser.id },
     process.env.ACCESS_TOKEN,
