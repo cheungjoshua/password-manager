@@ -4,8 +4,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const { data, error } = await useFetch(`${apiUrl}/`);
   if (data.value) {
     console.log("data", data.value);
+    navigateTo(to.fullPath);
   }
   if (error.value) {
+    navigateTo("/login");
     console.log("error", error.value.statusCode);
   }
 });
