@@ -3,7 +3,7 @@ const email = ref("");
 const password = ref("");
 </script>
 <template>
-  <div>
+  <div class="loginFormWrapper">
     <form class="inputForm">
       <label>Email</label>
       <input
