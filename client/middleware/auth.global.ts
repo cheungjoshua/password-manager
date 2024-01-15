@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     navigateTo(to.fullPath);
   }
   if (error.value) {
-    navigateTo("/login");
+    navigateTo("/signIn");
     console.log("error", error.value.statusCode);
   }
 });

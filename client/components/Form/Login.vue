@@ -1,4 +1,11 @@
 <script lang="ts" setup>
+const props = defineProps({
+  checkIsMember: {
+    type: Function,
+    required: true,
+  },
+});
+
 const email = ref("");
 const password = ref("");
 </script>
@@ -27,7 +34,10 @@ const password = ref("");
         />
       </label>
       <button type="submit">Login</button>
-      <p>Don't have account yet? <span>Create Account</span></p>
+      <p>
+        Don't have account yet?
+        <span @click="checkIsMember(false)">Create Account</span>
+      </p>
     </form>
   </div>
 </template>
