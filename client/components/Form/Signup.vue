@@ -1,4 +1,11 @@
 <script lang="ts" setup>
+const props = defineProps({
+  checkIsMember: {
+    type: Function,
+    required: true,
+  },
+});
+
 const username = ref("");
 const email = ref("");
 const password = ref("");
