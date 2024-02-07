@@ -57,6 +57,10 @@ const confirmPassword = ref("");
         />
       </label>
       <button type="submit">Login</button>
+      <p>
+        Already have a account?
+        <span @click="checkIsMember(true)">Go Login</span>
+      </p>
     </form>
   </div>
 </template>
