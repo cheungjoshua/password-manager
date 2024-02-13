@@ -64,4 +64,9 @@ const confirmPassword = ref("");
     </form>
   </div>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.signUpFormWrapper {
+  display: flex;
+  flex-direction: column;
+}
+</style>

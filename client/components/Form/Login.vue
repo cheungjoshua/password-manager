@@ -41,4 +41,9 @@ const password = ref("");
     </form>
   </div>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.loginFormWrapper {
+  display: flex;
+  flex-direction: column;
+}
+</style>
