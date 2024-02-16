@@ -13,6 +13,11 @@ function checkIsMember(data: boolean) {
 </template>
 <style lang="scss" scoped>
 .signInPageWrapper {
-  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+  background: rgb(0, 0, 0);
 }
 </style>

@@ -45,5 +45,17 @@ const password = ref("");
 .loginFormWrapper {
   display: flex;
   flex-direction: column;
+  gap: 1em;
+  background: rgb(35, 35, 35);
+  width: 90vw;
+  margin: auto;
+  padding: 1em;
+  border-radius: 1em;
+
+  .inputForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
 }
 </style>
