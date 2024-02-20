@@ -56,7 +56,7 @@ const confirmPassword = ref("");
           required
         />
       </label>
-      <button type="submit">Login</button>
+      <button type="submit">Create</button>
       <p>
         Already have a account?
         <span class="link" @click="checkIsMember(true)">Log in</span>
