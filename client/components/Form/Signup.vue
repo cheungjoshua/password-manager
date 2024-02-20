@@ -13,10 +13,10 @@ const confirmPassword = ref("");
 </script>
 <template>
   <div class="signUpFormWrapper">
-    <h2>Create Account</h2>
-    <form action="">
+    <form class="signUpForm form">
+      <h2>Create Account</h2>
       <label>
-        Username
+        Username:
         <input
           v-model="username"
           type="text"
@@ -26,7 +26,7 @@ const confirmPassword = ref("");
         />
       </label>
       <label>
-        Email
+        Email:
         <input
           v-model="email"
           type="text"
@@ -36,7 +36,7 @@ const confirmPassword = ref("");
         />
       </label>
       <label>
-        Password
+        Password:
         <input
           v-model="password"
           type="text"
@@ -47,7 +47,7 @@ const confirmPassword = ref("");
       </label>
 
       <label>
-        Confirm Password
+        Confirm Password:
         <input
           v-model="confirmPassword"
           type="text"
@@ -59,7 +59,7 @@ const confirmPassword = ref("");
       <button type="submit">Login</button>
       <p>
         Already have a account?
-        <span @click="checkIsMember(true)">Log in</span>
+        <span class="link" @click="checkIsMember(true)">Log in</span>
       </p>
     </form>
   </div>
