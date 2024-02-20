@@ -18,6 +18,6 @@ function checkIsMember(data: boolean) {
   align-items: center;
 
   height: 100vh;
-  background: rgb(0, 0, 0);
+  background: rgb(230, 230, 230);
 }
 </style>

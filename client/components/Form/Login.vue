@@ -14,7 +14,7 @@ const password = ref("");
     <h2>Log In</h2>
     <form class="inputForm">
       <label>
-        Email
+        Email:
         <input
           v-model="email"
           type="text"
@@ -24,7 +24,7 @@ const password = ref("");
         />
       </label>
       <label>
-        Password
+        Password:
         <input
           v-model="password"
           type="text"
@@ -36,7 +36,7 @@ const password = ref("");
       <button type="submit">Login</button>
       <p>
         Don't have an account yet?
-        <span @click="checkIsMember(false)">Sign up</span>
+        <span class="link" @click="checkIsMember(false)">Sign Up</span>
       </p>
     </form>
   </div>
@@ -46,16 +46,44 @@ const password = ref("");
   display: flex;
   flex-direction: column;
   gap: 1em;
-  background: rgb(35, 35, 35);
   width: 90vw;
+  max-width: 350px;
   margin: auto;
   padding: 1em;
   border-radius: 1em;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   .inputForm {
     display: flex;
     flex-direction: column;
     gap: 1em;
+
+    label {
+      display: flex;
+      gap: 1em;
+      align-items: center;
+
+      input {
+        border: none;
+        padding: 0.25em 0.5em;
+        border-radius: 6px;
+        font-size: 1em;
+      }
+    }
+
+    button {
+      background: rgb(53, 182, 53);
+      color: white;
+      border: none;
+      padding: 0.5em;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    .link {
+      color: rgb(0, 0, 255);
+      text-decoration: underline;
+    }
   }
 }
 </style>
