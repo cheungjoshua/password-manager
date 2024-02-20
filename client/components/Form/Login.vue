@@ -60,8 +60,8 @@ const password = ref("");
 
     label {
       display: flex;
-      gap: 1em;
       align-items: center;
+      justify-content: space-between;
 
       input {
         border: none;
@@ -69,10 +69,14 @@ const password = ref("");
         border-radius: 6px;
         font-size: 1em;
       }
+
+      input:focus-visible {
+        outline: 2px solid #35b635;
+      }
     }
 
     button {
-      background: rgb(53, 182, 53);
+      background: #35b635;
       color: white;
       border: none;
       padding: 0.5em;
@@ -81,7 +85,7 @@ const password = ref("");
     }
 
     .link {
-      color: rgb(0, 0, 255);
+      color: #0000ff;
       text-decoration: underline;
     }
   }
