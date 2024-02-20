@@ -82,11 +82,13 @@ const password = ref("");
       padding: 0.5em;
       border-radius: 6px;
       font-size: 1em;
+      cursor: pointer;
     }
 
     .link {
       color: #0000ff;
       text-decoration: underline;
+      cursor: pointer;
     }
   }
 }
