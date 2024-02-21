@@ -13,7 +13,7 @@ const confirmPassword = ref("");
 </script>
 <template>
   <div class="signUpFormWrapper">
-    <form class="signUpForm form">
+    <Form>
       <h2>Create Account</h2>
       <label>
         Username:
@@ -45,7 +45,6 @@ const confirmPassword = ref("");
           required
         />
       </label>
-
       <label>
         Confirm Password:
         <input
@@ -61,10 +60,7 @@ const confirmPassword = ref("");
         Already have a account?
         <span class="link" @click="checkIsMember(true)">Log in</span>
       </p>
-    </form>
+    </Form>
   </div>
 </template>
-<style lang="scss" scoped>
-.signUpFormWrapper {
-}
-</style>
+<style lang="scss" scoped></style>

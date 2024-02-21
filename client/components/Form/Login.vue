@@ -11,7 +11,7 @@ const password = ref("");
 </script>
 <template>
   <div class="loginFormWrapper">
-    <form class="inputForm form">
+    <Form>
       <h2>Log In</h2>
       <label>
         Email:
@@ -38,10 +38,7 @@ const password = ref("");
         Don't have an account yet?
         <span class="link" @click="checkIsMember(false)">Sign Up</span>
       </p>
-    </form>
+    </Form>
   </div>
 </template>
-<style lang="scss" scoped>
-.loginFormWrapper {
-}
-</style>
+<style lang="scss" scoped></style>

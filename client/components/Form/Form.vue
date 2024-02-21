@@ -2,11 +2,11 @@
 
 <template>
   <form class="form">
-    <slot> </slot>
+    <slot></slot>
   </form>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .form {
   display: flex;
   flex-direction: column;
