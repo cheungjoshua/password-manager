@@ -36,7 +36,7 @@ const password = ref("");
       <button type="submit">Login</button>
       <p>
         Don't have an account yet?
-        <span class="link" @click="checkIsMember(false)">Sign Up</span>
+        <span class="link" @click="checkIsMember(false)">Create One</span>
       </p>
     </Form>
   </div>
