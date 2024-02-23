@@ -10,6 +10,8 @@ const username = ref("");
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
+
+const pending = ref(false);
 </script>
 <template>
   <div class="signUpFormWrapper">

@@ -8,6 +8,8 @@ const props = defineProps({
 
 const email = ref("");
 const password = ref("");
+
+const pending = ref(false);
 </script>
 <template>
   <div class="loginFormWrapper">
