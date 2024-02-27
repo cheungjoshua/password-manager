@@ -4,6 +4,7 @@ import { defineNuxtConfig } from "nuxt/config";
 export default defineNuxtConfig({
   devtools: { enabled: false },
   css: ["~/assets/main.scss"],
+  modules: ["nuxt-icons"],
 
   runtimeConfig: {
     public: {

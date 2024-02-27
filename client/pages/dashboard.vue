@@ -2,7 +2,12 @@
 
 <template>
   <div class="dashboardsWrapper">
-    <h1>It is dashboards</h1>
+    <nav>
+      <button>ALL</button>
+      <button>Search</button>
+    </nav>
+    <div></div>
+    <button>Add New</button>
   </div>
 </template>
 
