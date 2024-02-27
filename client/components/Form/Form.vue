@@ -52,6 +52,12 @@
     &:active {
       box-shadow: inset rgba(0, 0, 0, 0.35) 0px 3px 15px;
     }
+
+    &:disabled,
+    &[disabled] {
+      background: grey;
+      box-shadow: none;
+    }
   }
 
   .link {

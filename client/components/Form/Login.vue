@@ -10,6 +10,7 @@ const email = ref("");
 const password = ref("");
 
 const pending = ref(false);
+const isEmpty = ref(true);
 </script>
 <template>
   <div class="loginFormWrapper">
@@ -35,7 +36,7 @@ const pending = ref(false);
           required
         />
       </label>
-      <button type="submit">Login</button>
+      <button type="submit" :disabled="isEmpty">Login</button>
       <p>
         Don't have an account yet?
         <span class="link" @click="checkIsMember(false)">Create One</span>
