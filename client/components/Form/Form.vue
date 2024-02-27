@@ -43,6 +43,15 @@
     border-radius: 6px;
     font-size: 1em;
     cursor: pointer;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 15px;
+    }
+
+    &:active {
+      box-shadow: inset rgba(0, 0, 0, 0.35) 0px 3px 15px;
+    }
   }
 
   .link {
