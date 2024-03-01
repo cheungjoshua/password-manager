@@ -22,7 +22,7 @@ watch([email, password], () => {
 
 const userLogin = async () => {
   try {
-    const resp = await $fetch(`${apiUrl}/users/login/`, {
+    const resp = await useFetch(`${apiUrl}/users/login/`, {
       method: "POST",
       body: {
         email: email.value,
