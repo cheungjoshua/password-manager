@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const apiUrl = useRuntimeConfig().public.api_url;
+
 const props = defineProps({
   checkIsMember: {
     type: Function,
@@ -11,6 +13,27 @@ const password = ref("");
 
 const pending = ref(false);
 const isEmpty = ref(true);
+
+watch([email, password], () => {
+  if (email.value.length > 0 && password.value.length > 0) {
+    isEmpty.value = false;
+  }
+});
+
+const userLogin = async () => {
+  try {
+    const resp = await $fetch(`${apiUrl}/users/login/`, {
+      method: "POST",
+      body: {
+        email: email.value,
+        password: password.value,
+      },
+    });
+    console.log(resp);
+  } catch (err) {
+    console.error(err);
+  }
+};
 </script>
 <template>
   <div class="loginFormWrapper">
@@ -36,7 +59,9 @@ const isEmpty = ref(true);
           required
         />
       </label>
-      <button type="submit" :disabled="isEmpty">Login</button>
+      <button type="button" @click="userLogin" :disabled="isEmpty">
+        Login
+      </button>
       <p>
         Don't have an account yet?
         <span class="link" @click="checkIsMember(false)">Create One</span>
