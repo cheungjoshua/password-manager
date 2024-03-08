@@ -3,10 +3,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   const { data, error } = await useFetch(`${apiUrl}/`);
 
+  console.log("data", data, "error", error);
+
   if (to.path !== "/sign-in") {
     if (error.value) {
       return navigateTo({ path: "/sign-in" });
     }
+    console.log(to.fullPath);
     return navigateTo({ path: to.path });
   }
 

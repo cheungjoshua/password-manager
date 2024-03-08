@@ -33,13 +33,14 @@ export const login = async (req: RequestType, res: Response) => {
     { expiresIn: "1h" }
   );
 
-  res
+  return res
     .status(200)
     .cookie("access-token", accessToken, {
       httpOnly: true,
+      sameSite: "none",
       secure: true,
     })
-    .json({ existUser });
+    .json(existUser.email);
 };
 
 export const singup = async (req: RequestType, res: Response) => {

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import axios from "axios";
+
 const apiUrl = useRuntimeConfig().public.api_url;
 
 const props = defineProps({
@@ -22,16 +24,27 @@ watch([email, password], () => {
 
 const userLogin = async () => {
   try {
-    const resp = await useFetch(`${apiUrl}/users/login/`, {
-      method: "POST",
-      body: {
+    // const resp = await $fetch(`${apiUrl}/users/login/`, {
+    //   method: "POST",
+    //   // credentials: "include",
+    //   body: {
+    //     email: email.value,
+    //     password: password.value,
+    //   },
+    // });
+
+    const resp = await axios.post(
+      `${apiUrl}/users/login/`,
+      {
         email: email.value,
         password: password.value,
       },
-    });
-    console.log(resp);
+      { withCredentials: true, credentials: "include" }
+    );
+    console.log("resp", resp);
+    //  navigateTo("/dashboard");
   } catch (err) {
-    console.error(err);
+    console.error("ERROR", err);
   }
 };
 </script>
