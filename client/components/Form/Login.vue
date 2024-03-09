@@ -24,15 +24,6 @@ watch([email, password], () => {
 
 const userLogin = async () => {
   try {
-    // const resp = await $fetch(`${apiUrl}/users/login/`, {
-    //   method: "POST",
-    //   // credentials: "include",
-    //   body: {
-    //     email: email.value,
-    //     password: password.value,
-    //   },
-    // });
-
     const resp = await axios.post(
       `${apiUrl}/users/login/`,
       {
