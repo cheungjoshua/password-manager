@@ -4,7 +4,6 @@ import { RequestType } from "types";
 
 export default (req: RequestType, res: Response, next: NextFunction) => {
   const token = req.cookies["access-token"];
-  // console.log("token", token);
 
   if (!token) {
     return res.status(401).json({ error: "Access Denied" });

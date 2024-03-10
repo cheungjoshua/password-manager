@@ -30,10 +30,12 @@ const userLogin = async () => {
         email: email.value,
         password: password.value,
       },
-      { withCredentials: true, credentials: "include" }
+      {
+        withCredentials: true,
+      }
     );
     console.log("resp", resp);
-    //  navigateTo("/dashboard");
+    navigateTo("/dashboard");
   } catch (err) {
     console.error("ERROR", err);
   }

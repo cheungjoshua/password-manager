@@ -1,7 +1,11 @@
+import axios from "axios";
+
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const apiUrl = useRuntimeConfig().public.api_url;
 
-  const { data, error } = await useFetch(`${apiUrl}/`);
+  const { data, error } = await useFetch(`${apiUrl}`, {
+    credentials: "include",
+  });
 
   console.log("data", data, "error", error);
 

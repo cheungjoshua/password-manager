@@ -10,11 +10,11 @@ import cookieParser from "cookie-parser";
 require("dotenv/config");
 
 // Use Middle ware
+app.use(cookieParser());
 app.use(morgan("dev"));
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 // Import Routes
 import routes from "./routes";
