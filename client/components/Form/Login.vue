@@ -35,7 +35,7 @@ const userLogin = async () => {
       }
     );
     console.log("resp", resp);
-    navigateTo("/dashboard");
+    return navigateTo("/dashboard");
   } catch (err) {
     console.error("ERROR", err);
   }

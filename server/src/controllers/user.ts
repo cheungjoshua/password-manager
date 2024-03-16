@@ -36,6 +36,7 @@ export const login = async (req: RequestType, res: Response) => {
   return res
     .status(200)
     .cookie("access-token", accessToken, {
+      maxAge: 3600000,
       httpOnly: true,
       sameSite: "none",
       secure: true,
