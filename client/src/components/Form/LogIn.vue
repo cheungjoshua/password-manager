@@ -28,7 +28,7 @@ watch([email, password], () => {
 
 const userLogin = async () => {
   try {
-    const resp = await axios.post(
+    const { data } = await axios.post(
       `/users/login/`,
       {
         email: email.value,
@@ -38,7 +38,8 @@ const userLogin = async () => {
         withCredentials: true,
       }
     );
-    console.log("resp", resp);
+
+    localStorage.setItem("email", data);
     router.push("/dashboard");
   } catch (err) {
     console.error("ERROR", err);
@@ -64,7 +65,7 @@ const userLogin = async () => {
         Password:
         <input
           v-model="password"
-          type="password"
+          type="text"
           name="password"
           placeholder="Enter Password"
           required
