@@ -1,10 +1,35 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref } from "vue";
+
+enum Dashboard {
+  All,
+  Search,
+}
+
+const selectedDashboard = ref(Dashboard.All);
+
+const selectDashboard = (dashboard: Dashboard) => {
+  selectedDashboard.value = dashboard;
+};
+</script>
 
 <template>
   <div class="dashboardWrapper">
     <nav class="dashboardNav">
-      <button class="buttonAll" :class="{ unSelect: true }">ALL</button>
-      <button class="buttonSearch">SEARCH</button>
+      <button
+        class="buttonAll"
+        :class="selectedDashboard === Dashboard.All ? 'isSelect' : ''"
+        @click="selectDashboard(Dashboard.All)"
+      >
+        ALL
+      </button>
+      <button
+        class="buttonSearch"
+        :class="selectedDashboard === Dashboard.Search ? 'isSelect' : ''"
+        @click="selectDashboard(Dashboard.Search)"
+      >
+        SEARCH
+      </button>
     </nav>
     <div></div>
     <footer>
@@ -37,16 +62,22 @@
       font-size: 1.5em;
     }
 
-    .buttonAll.unSelect {
+    .buttonAll {
       color: rgb(0, 0, 0, 0.5);
       background: rgb(255, 255, 255, 0.5);
       box-shadow: inset rgb(0, 0, 0, 0.35) -4px -4px 15px 0px;
     }
 
-    .buttonSearch.unSelect {
+    .buttonSearch {
       color: rgb(0, 0, 0, 0.5);
       background: rgb(255, 255, 255, 0.5);
-      box-shadow: inset rgb(0, 0, 0, 0.35) 4px 4px 15px 0px;
+      box-shadow: inset rgb(0, 0, 0, 0.35) 4px -4px 15px 0px;
+    }
+
+    .isSelect {
+      color: black;
+      background: none;
+      box-shadow: none;
     }
   }
 }
