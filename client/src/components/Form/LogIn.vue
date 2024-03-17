@@ -40,7 +40,6 @@ const userLogin = async () => {
     );
     console.log("resp", resp);
     router.push("/dashboard");
-    // return navigateTo("/dashboard");
   } catch (err) {
     console.error("ERROR", err);
   }
@@ -65,7 +64,7 @@ const userLogin = async () => {
         Password:
         <input
           v-model="password"
-          type="text"
+          type="password"
           name="password"
           placeholder="Enter Password"
           required

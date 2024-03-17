@@ -1,12 +1,4 @@
-<script lang="ts" setup>
-//import axios from "axios";
-
-// const { data } = await axios.get(`/auth/`, {
-//   withCredentials: true,
-// });
-
-// console.log("data", data);
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <div>

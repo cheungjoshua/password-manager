@@ -18,8 +18,9 @@ export default (req: RequestType, res: Response, next: NextFunction) => {
   } catch (err) {
     console.error(err);
 
-  // TODO: clear http token if token invalid for security issue
-  
-  res.status(400).json({ error: "Invalid Token" });
+    res
+      .status(400)
+      .json({ error: "Invalid Token" })
+      .clearCookie("access-token");
   }
 };
