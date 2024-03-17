@@ -24,12 +24,10 @@ In this project build. I will learn to use node built encrypt and decrypt functi
 
 ## Dependency
 
-- NuxtJS
+- Vue3
 - NodeJS
 - Express
 - Axios
-- Morgan
-- Nodemon
 - Mongoose
 - crypto
 - Bcrypt
