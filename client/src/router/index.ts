@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import axios from "axios";
+
 import DashboardView from "@/views/DashboardView.vue";
 import SignInView from "@/views/SignInView.vue";
 
@@ -22,6 +24,18 @@ const router = createRouter({
       // component: () => import("../views/AboutView.vue"),
     },
   ],
+});
+
+router.beforeEach(async (to, from) => {
+  try {
+    if (to.name !== "sign-in") {
+      await axios.get("/auth/", { withCredentials: true });
+    }
+  } catch (error) {
+    if (to.name !== "sign-in") {
+      return { name: "sign-in" };
+    }
+  }
 });
 
 export default router;
