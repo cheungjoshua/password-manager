@@ -32,8 +32,8 @@ const selectDashboard = (dashboard: Dashboard) => {
       </button>
     </nav>
     <div></div>
-    <footer>
-      <button>ADD NEW</button>
+    <footer class="dashboardFooter">
+      <button class="addNewButton">+ ADD NEW</button>
     </footer>
   </div>
 </template>
@@ -46,7 +46,7 @@ const selectDashboard = (dashboard: Dashboard) => {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background: #e6e6e6;
+  background: var(--background-color);
 
   .dashboardNav {
     width: 100%;
@@ -60,6 +60,9 @@ const selectDashboard = (dashboard: Dashboard) => {
       border: none;
       background: none;
       font-size: 1.5em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .buttonAll {
@@ -78,6 +81,21 @@ const selectDashboard = (dashboard: Dashboard) => {
       color: black;
       background: none;
       box-shadow: none;
+    }
+  }
+
+  .dashboardFooter {
+    width: 80%;
+
+    .addNewButton {
+      width: 100%;
+      padding: 0.5em 1em;
+      background: var(--button-green);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      margin-bottom: 10px;
     }
   }
 }

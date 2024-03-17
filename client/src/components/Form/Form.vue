@@ -36,7 +36,7 @@
   }
 
   button {
-    background: #43b343;
+    background: var(--button-green);
     color: white;
     border: none;
     padding: 0.5em;

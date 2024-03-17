@@ -22,6 +22,6 @@ function checkIsMember(data: boolean) {
   align-items: center;
 
   height: 100vh;
-  background: #e6e6e6;
+  background: var(--background-color);
 }
 </style>
