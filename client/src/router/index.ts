@@ -26,16 +26,16 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(async (to, from) => {
-  try {
-    if (to.name !== "sign-in") {
-      await axios.get("/auth/", { withCredentials: true });
-    }
-  } catch (error) {
-    if (to.name !== "sign-in") {
-      return { name: "sign-in" };
-    }
-  }
-});
+// router.beforeEach(async (to, from) => {
+//   try {
+//     if (to.name !== "sign-in") {
+//       await axios.get("/auth/", { withCredentials: true });
+//     }
+//   } catch (error) {
+//     if (to.name !== "sign-in") {
+//       return { name: "sign-in" };
+//     }
+//   }
+// });
 
 export default router;
