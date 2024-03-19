@@ -1,4 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { onMounted } from "vue";
+import axios from "axios";
+
+onMounted(async () => {
+  const allPasswordsList = await axios.get("/api/passwords/", {
+    withCredentials: true,
+  });
+});
+</script>
 
 <template>
   <div class="allListWrapper">all</div>
