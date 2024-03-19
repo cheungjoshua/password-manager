@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="allListWrapper">all</div>
+  <div class="listItemWrapper"></div>
 </template>
 
 <style lang="scss" scoped></style>

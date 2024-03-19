@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import AllList from "@/components/List/AllList.vue";
+import SearchList from "@/components/List/SearchList.vue";
 import { ref } from "vue";
 
 enum Dashboard {
@@ -31,7 +33,10 @@ const selectDashboard = (dashboard: Dashboard) => {
         SEARCH
       </button>
     </nav>
-    <div></div>
+    <div class="dashboardBody">
+      <AllList v-if="selectedDashboard === Dashboard.All" />
+      <SearchList v-if="selectedDashboard === Dashboard.Search" />
+    </div>
     <footer class="dashboardFooter">
       <button class="addNewButton">+ ADD NEW</button>
     </footer>
@@ -82,6 +87,10 @@ const selectDashboard = (dashboard: Dashboard) => {
       background: none;
       box-shadow: none;
     }
+  }
+
+  .dashboardBody {
+    margin-top: 100px;
   }
 
   .dashboardFooter {
