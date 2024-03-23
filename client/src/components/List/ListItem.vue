@@ -1,7 +1,28 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { PropType } from "vue";
+import { PasswordType } from "../../types/password";
+
+const props = defineProps({
+  passwordItem: {
+    type: {} as PropType<PasswordType>,
+  },
+});
+
+console.log("child", props);
+</script>
 
 <template>
-  <div class="listItemWrapper"></div>
+  <div class="listItemWrapper">
+    {{ passwordItem.app_name }}
+  </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.listItemWrapper {
+  text-align: center;
+  font-size: 1.3em;
+  background: white;
+  width: 100vw;
+  padding: 2em;
+}
+</style>

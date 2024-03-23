@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import AllList from "@/components/List/AllList.vue";
-import SearchList from "@/components/List/SearchList.vue";
+import AllList from "../components/List/AllList.vue";
+import SearchList from "../components/List/SearchList.vue";
 import { ref } from "vue";
 
 enum Dashboard {
@@ -46,7 +46,7 @@ const selectDashboard = (dashboard: Dashboard) => {
 <style lang="scss" scoped>
 .dashboardWrapper {
   width: 100%;
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,20 +91,28 @@ const selectDashboard = (dashboard: Dashboard) => {
 
   .dashboardBody {
     margin-top: 100px;
+    height: 80vh;
+    overflow: scroll;
   }
 
   .dashboardFooter {
-    width: 80%;
+    width: 100%;
+    padding: 1em;
+    position: fixed;
+    bottom: 0;
+    background: var(--background-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .addNewButton {
-      width: 100%;
+      width: 80%;
       padding: 0.5em 1em;
       background: var(--button-green);
       color: white;
       border: none;
       border-radius: 6px;
       font-size: 1em;
-      margin-bottom: 10px;
     }
   }
 }
