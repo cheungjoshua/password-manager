@@ -46,12 +46,13 @@ const selectDashboard = (dashboard: Dashboard) => {
 <style lang="scss" scoped>
 .dashboardWrapper {
   width: 100%;
-  // height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   background: var(--background-color);
+  position: relative;
 
   .dashboardNav {
     width: 100%;
@@ -59,6 +60,7 @@ const selectDashboard = (dashboard: Dashboard) => {
     display: flex;
     justify-content: space-between;
     position: fixed;
+    flex-grow: 1;
 
     button {
       width: 50vw;
@@ -90,20 +92,24 @@ const selectDashboard = (dashboard: Dashboard) => {
   }
 
   .dashboardBody {
-    margin-top: 100px;
-    height: 80vh;
+    width: 100%;
+    margin-top: 80px;
+    margin-bottom: 80px;
+    //  height: 80vh;
     overflow: scroll;
+    flex-grow: 3;
   }
 
   .dashboardFooter {
     width: 100%;
     padding: 1em;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     background: var(--background-color);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-grow: 1;
 
     .addNewButton {
       width: 80%;

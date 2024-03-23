@@ -22,7 +22,7 @@ console.log("child", props);
   text-align: center;
   font-size: 1.3em;
   background: white;
-  width: 100vw;
+  width: 100%;
   padding: 2em;
 }
 </style>
