@@ -24,5 +24,11 @@ console.log("child", props);
   background: white;
   width: 100%;
   padding: 2em;
+  box-shadow: inset rgb(0, 0, 0, 0.35) 0px 0px 10px 0px;
+  cursor: pointer;
+
+  &:hover {
+    scale: 1.2;
+  }
 }
 </style>

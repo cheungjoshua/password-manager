@@ -96,7 +96,8 @@ const selectDashboard = (dashboard: Dashboard) => {
     margin-top: 80px;
     margin-bottom: 80px;
     //  height: 80vh;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     flex-grow: 3;
   }
 

@@ -22,9 +22,11 @@ onMounted(() => {
 
 <template>
   <div class="allListWrapper">
-    <div v-for="item in passwordsList" :key="item._id">
-      <ListItem :passwordItem="item" />
-    </div>
+    <ListItem
+      v-for="item in passwordsList"
+      :passwordItem="item"
+      :key="item._id"
+    />
   </div>
 </template>
 
