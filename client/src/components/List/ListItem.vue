@@ -7,8 +7,6 @@ const props = defineProps({
     type: {} as PropType<PasswordType>,
   },
 });
-
-console.log("child", props);
 </script>
 
 <template>
