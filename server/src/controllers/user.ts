@@ -58,7 +58,8 @@ export const singup = async (req: RequestType, res: Response) => {
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
   // Create a specify init vector key for individual user
-
+  // TODO: Encrypt the userIV before save
+  //      Create addition Secert in env to encrypt the userIV
   const userIv = crypto.randomBytes(16).toString("hex");
 
   // Create a new User for save it to database
