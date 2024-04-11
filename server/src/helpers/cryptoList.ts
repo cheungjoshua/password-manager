@@ -5,6 +5,7 @@ import { PasswordCollectionType, PasswordType } from "../types";
 const algorithm = "aes-256-gcm";
 
 // Secret Key for encrypt and decrypt
+// TODO: use crypto.randomBytes(16) to create salt and save in env in the future
 const secretKey = crypto.scryptSync(process.env.SECURITY_KEY, "salt", 32);
 
 // Decrypt individual data inside the loop
