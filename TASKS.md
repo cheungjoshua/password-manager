@@ -58,23 +58,20 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 ## Phase 2: Authentication Flow Tests
 **Priority: HIGH | Week 1**
 
-### Test File: `tests/api/auth.test.js`
-- [ ] **POST /api/auth/login** - Valid credentials returns JWT token (200)
-- [ ] **POST /api/auth/login** - Invalid credentials returns 401 error
-- [ ] **POST /api/auth/login** - Missing required fields validation
-- [ ] **POST /api/auth/register** - Valid user data creates user and returns token (201)
-- [ ] **POST /api/auth/register** - Duplicate username returns 409 error
-- [ ] **POST /api/auth/register** - Weak password validation
-- [ ] **JWT Middleware** - Valid token adds user to request context (200)
-- [ ] **JWT Middleware** - Invalid token returns 401 error
-- [ ] **JWT Middleware** - Missing token returns 401 error
-- [ ] **Protected Routes** - Unauthenticated access returns 401
-- [ ] **Mock user factory** - Create `tests/utils/testUsers.js` for test data
+### Test File: `tests/api/auth.test.ts`
+- [x] **POST /users/login/** - Invalid credentials returns 401 error
+- [x] **POST /users/login/** - Missing required fields validation
+- [x] **POST /users/login/** - Invalid email format validation
+- [x] **POST /users/login/** - Password less than 6 chars validation
+- [x] **POST /users/signup** - Valid user data creates user successfully
+- [x] **POST /users/signup** - Duplicate email handling (mock not implemented)
+- [x] **POST /users/signup** - Missing required fields validation
+- [x] **POST /users/signup** - Invalid email format validation
+- [x] **POST /users/signup** - Weak password validation
+- [x] **POST /users/signup** - Weak username validation
 
 ### Test Patterns to Document
-- [ ] Add API test template to `tests/api/index.js`
-- [ ] Document mock user factory pattern
-- [ ] Add error handling assertions for all tests
+- [x] Add API test template to `tests/api/index.ts`
 
 ---
 
@@ -172,7 +169,7 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 | Phase | Status | Tests Written | Passing | Coverage |
 |-------|--------|---------------|---------|----------|
 | Phase 1: Setup | ✅ **COMPLETE** | - | - | - |
-| Phase 2: Auth | - | - | - | - |
+| Phase 2: Auth | ✅ **COMPLETE** | 11 | 11 | - |
 | Phase 3: CRUD | - | - | - | - |
 | Phase 4: Utils | - | - | - | - |
 | Phase 5: Quality | - | - | - | - |

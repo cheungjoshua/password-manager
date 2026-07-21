@@ -37,3 +37,6 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server started`);
 });
+
+// Export app for testing
+export { app };

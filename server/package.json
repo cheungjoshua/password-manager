@@ -11,7 +11,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "test:auth": "jest tests/api/auth.test.js",
+    "test:auth": "jest tests/api/auth.test.ts",
     "test:api": "jest tests/api/*.test.js"
   },
   "keywords": [],
@@ -42,6 +42,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.9.1",
+    "@types/supertest": "^7.2.1",
     "@typescript-eslint/parser": "^6.11.0",
     "jest": "^30.4.2",
     "supertest": "^7.2.2",
