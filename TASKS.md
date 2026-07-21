@@ -72,6 +72,8 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 
 ### Test Patterns to Document
 - [x] Add API test template to `tests/api/index.ts`
+- [x] Document mock user factory pattern
+- [x] Add error handling assertions for all tests
 
 ---
 
@@ -170,9 +172,9 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 |-------|--------|---------------|---------|----------|
 | Phase 1: Setup | ✅ **COMPLETE** | - | - | - |
 | Phase 2: Auth | ✅ **COMPLETE** | 11 | 11 | - |
-| Phase 3: CRUD | - | - | - | - |
-| Phase 4: Utils | - | - | - | - |
-| Phase 5: Quality | - | - | - | - |
+| Phase 3: CRUD | 📝 In Progress | - | - | - |
+| Phase 4: Utils | 📝 In Progress | - | - | - |
+| Phase 5: Quality | 📝 In Progress | - | - | - |
 
 ---
 
@@ -204,3 +206,12 @@ npm run test:coverage
 - **Fast iterations**: Tests should run in seconds
 - **API-first approach**: Focus on server endpoints before frontend
 - **Mock-based**: See [agent.md](./agent.md) for mocking strategy
+
+## Completed Work
+
+### Phase 2: Authentication Tests
+- 11 tests written and passing for `POST /users/signup` and `POST /users/login/`
+- Mock server created at `tests/server.ts` to avoid mongoose dependency
+- Test runner created at `tests/api/index.ts` with mock user factory
+- Jest configured with TypeScript support
+- All tests use `.test.ts` extension for TypeScript files
