@@ -4,19 +4,21 @@
     "module": "commonjs",
     "sourceMap": true,
     "outDir": "./build",
-    "rootDir": "./src",
+    "rootDir": "./",
     /* Strict Type-Checking Options */
     "strict": false,
     "noImplicitAny": true,
     /* Module Resolution Options */
     "moduleResolution": "node",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "esModuleInterop": true,
     /* Advanced Options */
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "6.0",
+    "types": ["jest", "node"]
   },
 
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "build"]
 }
