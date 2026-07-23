@@ -1,6 +1,6 @@
 import { Response } from "express";
 import crypto from "crypto";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import { RequestType } from "../types";
@@ -18,7 +18,7 @@ export const login = async (req: RequestType, res: Response) => {
 
   const isValidPassword = await bcrypt.compare(
     req.body.password,
-    existUser.password
+    existUser.password,
   );
   if (!isValidPassword) return res.status(401).send("Invalid password");
 
@@ -30,7 +30,7 @@ export const login = async (req: RequestType, res: Response) => {
   const accessToken = jwt.sign(
     { _id: existUser.id },
     process.env.ACCESS_TOKEN,
-    { expiresIn: "1h" }
+    { expiresIn: "1h" },
   );
 
   return res

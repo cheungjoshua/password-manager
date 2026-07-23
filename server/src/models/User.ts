@@ -1,40 +1,52 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt';
-import crypto from 'crypto';
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
-const UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    require: true,
+const UserSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      trim: true,
+      lowercase: true,
+      match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"],
+    },
+    username: {
+      type: String,
+      required: [true, "Username is required"],
+      trim: true,
+      minlength: [3, "Username must be at least 3 characters"],
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: [6, "Password must be at least 6 characters"],
+    },
+    user_IV: {
+      type: String,
+      required: [true, "User IV is required"],
+    },
   },
-  username: {
-    type: String,
-    require: true,
+  {
+    timestamps: true,
   },
-  password: {
-    type: String,
-    require: true,
-  },
-  user_IV: {
-    type: String,
-    require: true,
-  },
-});
+);
 
-// Hash password and ensure user_IV before saving
-UserSchema.pre('save', async function (next) {
+UserSchema.pre("save", async function (next) {
   try {
-    // `this` is the document being saved
-    const doc: any = this;
+    const user = this as mongoose.Document & {
+      password: string;
+      user_IV?: string;
+      isModified: (field: string) => boolean;
+    };
 
-    if (doc.isModified && doc.isModified('password')) {
-      const saltRounds = 10;
-      const salt = await bcrypt.genSalt(saltRounds);
-      doc.password = await bcrypt.hash(doc.password, salt);
+    if (user.isModified("password")) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
     }
 
-    if (!doc.user_IV) {
-      doc.user_IV = crypto.randomBytes(16).toString('hex');
+    if (!user.user_IV) {
+      user.user_IV = crypto.randomBytes(16).toString("hex");
     }
 
     next();
