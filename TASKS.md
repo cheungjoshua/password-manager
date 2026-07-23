@@ -1,8 +1,10 @@
 # Backend Testing Tasks - Password Manager
 
 ## Overview
-This file tracks all **backend testing** tasks for the Password Manager project. 
+
+This file tracks all **backend testing** tasks for the Password Manager project.
 Following the testing strategy in [agent.md](./agent.md), we focus on:
+
 - API testing with Jest + Supertest
 - Mock-based approach (no real database)
 - Authentication tests first, then CRUD operations
@@ -11,9 +13,11 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 ---
 
 ## Phase 1: Test Infrastructure Setup
+
 **Goal:** Get testing framework ready with proper configuration
 
 ### Setup Tasks
+
 - [x] Install Jest and Supertest in `server/package.json`
   ```bash
   npm install --save-dev jest supertest ts-jest @types/jest @types/supertest
@@ -49,6 +53,7 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
   ```
 
 ### Verification
+
 - [x] Run `npm test` and verify Jest runs without errors
 - [x] Confirm TypeScript compilation with Jest works
 - [x] Verify test timeout is set to 10000ms
@@ -56,9 +61,11 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 ---
 
 ## Phase 2: Authentication Flow Tests
+
 **Priority: HIGH | Week 1**
 
 ### Test File: `tests/api/auth.test.ts`
+
 - [x] **POST /users/login/** - Invalid credentials returns 401 error
 - [x] **POST /users/login/** - Missing required fields validation
 - [x] **POST /users/login/** - Invalid email format validation
@@ -71,6 +78,7 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 - [x] **POST /users/signup** - Weak username validation
 
 ### Test Patterns to Document
+
 - [x] Add API test template to `tests/api/index.ts`
 - [x] Document mock user factory pattern
 - [x] Add error handling assertions for all tests
@@ -78,9 +86,11 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 ---
 
 ## Phase 3: Password CRUD Operations Tests
+
 **Priority: HIGH | Week 2**
 
 ### Test File: `tests/api/password.test.js`
+
 - [ ] **POST /api/entries** - Create password entry with validation
 - [ ] **POST /api/entries** - Missing required fields returns 400
 - [ ] **POST /api/entries** - Data encryption before saving to DB
@@ -95,62 +105,74 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 - [ ] **DELETE /api/entries/:id** - Authorization: access other's entry (403)
 
 ### Test Patterns to Document
+
 - [ ] Document authorization testing approach
 - [ ] Add soft delete vs hard delete considerations
 
 ---
 
 ## Phase 4: Supporting Component Tests
+
 **Priority: MEDIUM | Week 3**
 
-### Models: `tests/models/user.test.js`
-- [ ] User schema validation (required fields, unique username)
-- [ ] Password hashing verification
-- [ ] Document/Query structure tests
+### Models: `tests/models/user.test.ts`
+
+- [x] User schema validation (required fields and field-level validation)
+- [x] Password hashing verification
+- [x] Document/Query structure tests
 
 ### Middleware: `tests/middleware/auth.test.js`
+
 - [ ] JWT auth middleware - extracts user from token
 - [ ] JWT auth middleware - rejects invalid tokens
 - [ ] JWT auth middleware - handles missing tokens
 - [ ] Error handling middleware tests
 
 ### Middleware: `tests/middleware/validation.test.js`
+
 - [ ] Joi validation tests for login payload
 - [ ] Joi validation tests for registration payload
 - [ ] Joi validation tests for password entry
 
 ### Utils: `tests/utils/crypto.test.js`
+
 - [ ] Password encryption function tests
 - [ ] Password decryption function tests
 - [ ] Encryption key management tests
 - [ ] Password hashing tests
 
 ### Utils: `tests/utils/helpers.test.js`
+
 - [ ] Any helper utility function tests
 
 ---
 
 ## Phase 5: Test Maintenance & Quality
+
 **Ongoing**
 
 ### Test Review
+
 - [ ] Review all tests for proper isolation (no shared state)
 - [ ] Ensure each test is independent (setup/teardown per test)
 - [ ] Verify test names follow pattern: `METHOD /path should [action] [result]`
 - [ ] Remove unused test cases
 
 ### Coverage Optimization
+
 - [ ] Run coverage: `npm test -- --coverage`
 - [ ] Identify uncovered code paths
 - [ ] Add tests to reach 70% coverage target
 - [ ] Generate HTML coverage report
 
 ### Test Speed
+
 - [ ] Verify test execution time < 5 seconds
 - [ ] Optimize slow tests
 - [ ] Review mock configurations
 
 ### CI/CD Preparation
+
 - [ ] Add `package.json` scripts:
   ```json
   {
@@ -168,13 +190,13 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 
 ## Progress Tracking
 
-| Phase | Status | Tests Written | Passing | Coverage |
-|-------|--------|---------------|---------|----------|
-| Phase 1: Setup | ✅ **COMPLETE** | - | - | - |
-| Phase 2: Auth | ✅ **COMPLETE** | 11 | 11 | - |
-| Phase 3: CRUD | 📝 In Progress | - | - | - |
-| Phase 4: Utils | 📝 In Progress | - | - | - |
-| Phase 5: Quality | 📝 In Progress | - | - | - |
+| Phase            | Status          | Tests Written | Passing | Coverage |
+| ---------------- | --------------- | ------------- | ------- | -------- |
+| Phase 1: Setup   | ✅ **COMPLETE** | -             | -       | -        |
+| Phase 2: Auth    | ✅ **COMPLETE** | 11            | 11      | -        |
+| Phase 3: CRUD    | 📝 In Progress  | -             | -       | -        |
+| Phase 4: Utils   | 📝 In Progress  | -             | -       | -        |
+| Phase 5: Quality | 📝 In Progress  | -             | -       | -        |
 
 ---
 
@@ -210,6 +232,7 @@ npm run test:coverage
 ## Completed Work
 
 ### Phase 2: Authentication Tests
+
 - 11 tests written and passing for `POST /users/signup` and `POST /users/login/`
 - Mock server created at `tests/server.ts` to avoid mongoose dependency
 - Test runner created at `tests/api/index.ts` with mock user factory
