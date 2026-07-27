@@ -23,8 +23,8 @@ password-manager/
     │   └── utils/
     ├── tests/                   # All tests live here (enterprise standard)
     │   ├── api/                 # API endpoint tests (priority)
-    │   │   ├── auth.test.js     # Login, register, JWT tests
-    │   │   ├── password.test.js # CRUD password operations
+    │   │   ├── auth.test.ts     # Login, register, JWT tests
+    │   │   ├── password.test.ts # CRUD password operations
     │   │   └── index.js         # API test runner
     │   ├── models/              # Model/schema tests
     │   ├── middleware/          # Middleware tests
@@ -66,17 +66,17 @@ password-manager/
 ```
 tests/
 ├── api/                    # API endpoint tests (highest priority)
-│   ├── auth.test.js       # Login, register, JWT validation
-│   ├── password.test.js   # Create, read, update, delete
+│   ├── auth.test.ts       # Login, register, JWT validation
+│   ├── password.test.ts   # Create, read, update, delete
 │   └── index.js           # API test runner configuration
 ├── models/
-│   └── user.test.js       # User schema validation
+│   └── user.test.ts       # User schema validation
 ├── middleware/
-│   ├── auth.test.js       # JWT authentication middleware
-│   └── validation.test.js # Joi validation tests
+│   ├── auth.test.ts       # JWT authentication middleware
+│   └── validation.test.ts # Joi validation tests
 └── utils/
-    ├── crypto.test.js     # Password encryption/decryption
-    └── helpers.test.js    # Utility functions
+    ├── crypto.test.ts     # Password encryption/decryption
+    └── helpers.test.ts    # Utility functions
 ```
 
 ---
@@ -90,7 +90,6 @@ module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/server/tests'],
   testMatch: [
-    '**/tests/**/*.test.js',
     '**/tests/**/*.test.ts',
   ],
   moduleFileExtensions: ['js', 'ts', 'json'],
@@ -107,7 +106,7 @@ module.exports = {
 ### Test Setup File
 ```javascript
 // tests/setup.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 beforeAll(async () => {
   // Mock database connection
@@ -191,9 +190,9 @@ afterAll(async () => {
 ## Test Patterns
 
 ### API Test Template
-```javascript
-const request = require('supertest');
-const app = require('../../src/app');
+```typescript
+import request from 'supertest';
+import app from '../../src/app';
 
 describe('POST /api/auth/login', () => {
   it('should return JWT token for valid credentials', async () => {
@@ -255,7 +254,7 @@ npm test
 npm test -- --coverage
 
 # Run specific test file
-npm test -- tests/api/auth.test.js
+npm test -- tests/api/auth.test.ts
 
 # Run tests for specific pattern
 npm test -- --testPathPattern="auth"
@@ -268,8 +267,8 @@ npm test -- --testPathPattern="auth"
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "test:auth": "jest tests/api/auth.test.js",
-    "test:api": "jest tests/api/*.test.js"
+    "test:auth": "jest tests/api/auth.test.ts",
+    "test:api": "jest tests/api/*.test.ts"
   }
 }
 ```
@@ -281,7 +280,7 @@ npm test -- --testPathPattern="auth"
 ### Database Mocking
 ```javascript
 // Use Jest's native mock for Mongoose
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 jest.mock('mongoose');
 
 const MockModel = jest.requireMock('mongoose').default;

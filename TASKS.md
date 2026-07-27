@@ -29,7 +29,7 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 - [x] Create `server/jest.config.js` with:
   - `testEnvironment: 'node'`
   - `roots: ['<rootDir>/tests']`
-  - `testMatch: ['**/tests/**/*.test.js', '**/tests/**/*.test.ts']`
+  - `testMatch: ['**/tests/**/*.test.ts']`
   - `transform: { '^.+\\.ts$': 'ts-jest' }`
   - `moduleFileExtensions: ['js', 'ts', 'json']`
   - `coverageDirectory: 'coverage'`
@@ -39,17 +39,17 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
   ```
   tests/
   ├── api/
-  │   ├── auth.test.js
-  │   ├── password.test.js
+  │   ├── auth.test.ts
+  │   ├── password.test.ts
   │   └── index.js
   ├── models/
-  │   └── user.test.js
+  │   └── user.test.ts
   ├── middleware/
-  │   ├── auth.test.js
-  │   └── validation.test.js
+  │   ├── auth.test.ts
+  │   └── validation.test.ts
   └── utils/
-      ├── crypto.test.js
-      └── helpers.test.js
+      ├── crypto.test.ts
+      └── helpers.test.ts
   ```
 
 ### Verification
@@ -89,25 +89,24 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 
 **Priority: HIGH | Week 2**
 
-### Test File: `tests/api/password.test.js`
+### Test File: `tests/api/password.test.ts`
 
-- [ ] **POST /api/entries** - Create password entry with validation
-- [ ] **POST /api/entries** - Missing required fields returns 400
-- [ ] **POST /api/entries** - Data encryption before saving to DB
+- [x] **POST /api/entries** - Create password entry with validation
+- [x] **POST /api/entries** - Missing required fields returns 400
+- [x] **POST /api/entries** - Data encryption before saving to DB
 - [ ] **POST /api/entries** - Success response includes entry ID (201)
-- [ ] **GET /api/entries/:id** - Retrieve entry with encryption (200)
+- [x] **GET /api/entries** - Retrieve entry with encryption (200)
 - [ ] **GET /api/entries/:id** - Entry not found returns 404
-- [ ] **PUT /api/entries/:id** - Partial update allowed
-- [ ] **PUT /api/entries/:id** - Validation of changes
-- [ ] **PUT /api/entries/:id** - Encryption before saving updated data
-- [ ] **DELETE /api/entries/:id** - Delete entry with authorization check
-- [ ] **DELETE /api/entries/:id** - Authorization: access own entry (200)
+- [x] **PUT /api/entries/:id** - Partial update allowed
+- [x] **PUT /api/entries/:id** - Encryption before saving updated data
+- [x] **DELETE /api/entries/:id** - Delete entry with authorization check
 - [ ] **DELETE /api/entries/:id** - Authorization: access other's entry (403)
 
 ### Test Patterns to Document
 
 - [ ] Document authorization testing approach
 - [ ] Add soft delete vs hard delete considerations
+- [ ] Add 404 handling test for not found entries
 
 ---
 
@@ -121,27 +120,27 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 - [x] Password hashing verification
 - [x] Document/Query structure tests
 
-### Middleware: `tests/middleware/auth.test.js`
+### Middleware: `tests/middleware/auth.test.ts`
 
 - [ ] JWT auth middleware - extracts user from token
 - [ ] JWT auth middleware - rejects invalid tokens
 - [ ] JWT auth middleware - handles missing tokens
 - [ ] Error handling middleware tests
 
-### Middleware: `tests/middleware/validation.test.js`
+### Middleware: `tests/middleware/validation.test.ts`
 
 - [ ] Joi validation tests for login payload
 - [ ] Joi validation tests for registration payload
 - [ ] Joi validation tests for password entry
 
-### Utils: `tests/utils/crypto.test.js`
+### Utils: `tests/utils/crypto.test.ts`
 
 - [ ] Password encryption function tests
 - [ ] Password decryption function tests
 - [ ] Encryption key management tests
 - [ ] Password hashing tests
 
-### Utils: `tests/utils/helpers.test.js`
+### Utils: `tests/utils/helpers.test.ts`
 
 - [ ] Any helper utility function tests
 
@@ -180,8 +179,8 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
       "test": "jest",
       "test:coverage": "jest --coverage",
       "test:watch": "jest --watch",
-      "test:auth": "jest tests/api/auth.test.js",
-      "test:api": "jest tests/api/*.test.js"
+      "test:auth": "jest tests/api/auth.test.ts",
+      "test:api": "jest tests/api/*.test.ts"
     }
   }
   ```
@@ -194,7 +193,7 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 | ---------------- | --------------- | ------------- | ------- | -------- |
 | Phase 1: Setup   | ✅ **COMPLETE** | -             | -       | -        |
 | Phase 2: Auth    | ✅ **COMPLETE** | 11            | 11      | -        |
-| Phase 3: CRUD    | 📝 In Progress  | -             | -       | -        |
+| Phase 3: CRUD    | 🟢 **6/12 PASSING** | 6           | 6      | -        |
 | Phase 4: Utils   | 📝 In Progress  | -             | -       | -        |
 | Phase 5: Quality | 📝 In Progress  | -             | -       | -        |
 
@@ -210,7 +209,7 @@ npm test
 npm test -- --coverage
 
 # Run specific test file
-npm test -- tests/api/auth.test.js
+npm test -- tests/api/auth.test.ts
 
 # Run tests in watch mode
 npm test -- --watch
