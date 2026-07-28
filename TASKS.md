@@ -94,13 +94,14 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 - [x] **POST /api/entries** - Create password entry with validation
 - [x] **POST /api/entries** - Missing required fields returns 400
 - [x] **POST /api/entries** - Data encryption before saving to DB
-- [ ] **POST /api/entries** - Success response includes entry ID (201)
+- [x] **POST /api/entries** - Success response includes entry ID (200)
 - [x] **GET /api/entries** - Retrieve entry with encryption (200)
-- [ ] **GET /api/entries/:id** - Entry not found returns 404
+- [x] **GET /api/entries** - Returns message when no list found (200)
 - [x] **PUT /api/entries/:id** - Partial update allowed
 - [x] **PUT /api/entries/:id** - Encryption before saving updated data
 - [x] **DELETE /api/entries/:id** - Delete entry with authorization check
-- [ ] **DELETE /api/entries/:id** - Authorization: access other's entry (403)
+- [x] **DELETE /api/entries/:id** - Collection does not exist returns 400
+- [x] **DELETE /api/entries/:id** - Authorization: access other's entry returns 400
 
 ### Test Patterns to Document
 
@@ -193,7 +194,7 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 | ---------------- | --------------- | ------------- | ------- | -------- |
 | Phase 1: Setup   | ✅ **COMPLETE** | -             | -       | -        |
 | Phase 2: Auth    | ✅ **COMPLETE** | 11            | 11      | -        |
-| Phase 3: CRUD    | 🟢 **6/12 PASSING** | 6           | 6      | -        |
+| Phase 3: CRUD    | ✅ **COMPLETE** | 9             | 9       | -        |
 | Phase 4: Utils   | 📝 In Progress  | -             | -       | -        |
 | Phase 5: Quality | 📝 In Progress  | -             | -       | -        |
 

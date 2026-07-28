@@ -167,4 +167,75 @@ describe("Password controller", () => {
     expect(res.json).toHaveBeenCalledWith({ ok: 1 });
     expect(Password.updateOne).toHaveBeenCalledTimes(1);
   });
+
+  it("POST /api/passwords should return the created password entry with ID", async () => {
+    (validatePost as jest.Mock).mockReturnValue({ error: null });
+    (User.findOne as jest.Mock).mockResolvedValue({ user_IV: "iv123" });
+    (Password.findOne as jest.Mock).mockResolvedValue(null);
+    (Password.findOneAndUpdate as jest.Mock).mockResolvedValue({
+      _id: "collection-new-id",
+      user_id: "user-1",
+      collections: [
+        {
+          _id: "collection-new-id",
+          app_name: "encrypted:iv123:GitHub",
+          app_username: "encrypted:iv123:octocat",
+          app_password: "encrypted:iv123:secret",
+        },
+      ],
+    });
+
+    const req: any = {
+      body: {
+        app_name: "GitHub",
+        app_username: "octocat",
+        app_password: "secret",
+      },
+      user: { _id: "user-1" },
+    };
+    const res = mockRes();
+
+    await createPassword(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        _id: "collection-new-id",
+        collections: expect.arrayContaining([
+          expect.objectContaining({
+            app_name: expect.stringContaining("encrypted:"),
+          }),
+        ]),
+      })
+    );
+    expect(Password.findOneAndUpdate).toHaveBeenCalledTimes(1);
+  });
+
+  it("GET /api/passwords should return message when no passwords list is found", async () => {
+    (Password.findOne as jest.Mock).mockResolvedValue(null);
+
+    const req: any = { user: { _id: "user-1" } };
+    const res = mockRes();
+
+    await getPasswords(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalledWith("Not passwords list find");
+  });
+
+
+  it("DELETE /api/passwords/:id should return 400 when collection does not exist", async () => {
+    (Password.findOne as jest.Mock).mockResolvedValue(null);
+
+    const req: any = {
+      params: { id: "507f1f77bcf86cd799439011" }, // Valid ObjectId format
+      user: { _id: "user-1" },
+    };
+    const res = mockRes();
+
+    await deletePassword(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith("Collection Not Find!");
+  });
 });
