@@ -105,9 +105,15 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 
 ### Test Patterns to Document
 
-- [ ] Document authorization testing approach
-- [ ] Add soft delete vs hard delete considerations
-- [ ] Add 404 handling test for not found entries
+- [x] Document authorization testing approach
+- [x] Add soft delete vs hard delete considerations
+- [x] Add 404 handling test for not found entries
+- [x] Add mock authorization helper functions
+
+**Implementation Notes:**
+- Authorization helper added to `tests/api/index.ts` with `mockAuthenticatedRequest` and `mockUnauthenticatedRequest`
+- Soft delete vs hard delete documented with test patterns
+- 404 handling pattern documented with different HTTP status codes for different scenarios
 
 ---
 
