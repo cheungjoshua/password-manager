@@ -111,6 +111,7 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 - [x] Add mock authorization helper functions
 
 **Implementation Notes:**
+
 - Authorization helper added to `tests/api/index.ts` with `mockAuthenticatedRequest` and `mockUnauthenticatedRequest`
 - Soft delete vs hard delete documented with test patterns
 - 404 handling pattern documented with different HTTP status codes for different scenarios
@@ -129,27 +130,27 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 
 ### Middleware: `tests/middleware/auth.test.ts`
 
-- [ ] JWT auth middleware - extracts user from token
-- [ ] JWT auth middleware - rejects invalid tokens
-- [ ] JWT auth middleware - handles missing tokens
-- [ ] Error handling middleware tests
+- [x] JWT auth middleware - extracts user from token
+- [x] JWT auth middleware - rejects invalid tokens
+- [x] JWT auth middleware - handles missing tokens
+- [x] Error handling middleware tests
 
 ### Middleware: `tests/middleware/validation.test.ts`
 
-- [ ] Joi validation tests for login payload
-- [ ] Joi validation tests for registration payload
-- [ ] Joi validation tests for password entry
+- [x] Joi validation tests for login payload
+- [x] Joi validation tests for registration payload
+- [x] Joi validation tests for password entry
 
 ### Utils: `tests/utils/crypto.test.ts`
 
-- [ ] Password encryption function tests
-- [ ] Password decryption function tests
-- [ ] Encryption key management tests
-- [ ] Password hashing tests
+- [x] Password encryption function tests
+- [x] Password decryption function tests
+- [x] Encryption key management tests
+- [x] Password hashing tests
 
 ### Utils: `tests/utils/helpers.test.ts`
 
-- [ ] Any helper utility function tests
+- [x] Any helper utility function tests
 
 ---
 
@@ -159,10 +160,13 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 
 ### Test Review
 
-- [ ] Review all tests for proper isolation (no shared state)
-- [ ] Ensure each test is independent (setup/teardown per test)
-- [ ] Verify test names follow pattern: `METHOD /path should [action] [result]`
-- [ ] Remove unused test cases
+- [x] Review all tests for proper isolation (no shared state)
+- [x] Ensure each test is independent (setup/teardown per test)
+- [x] Verify test names follow pattern: `METHOD /path should [action] [result]`
+- [x] Remove unused or overly synthetic test cases
+- [x] Replace export-only and mock-only assertions with behavior-based tests
+- [x] Document anti-pattern guidance in [agent.md](./agent.md) so future tests avoid the same issue
+- [x] Add a required review checklist so future test additions must verify behavior, naming, and observable outcomes
 
 ### Coverage Optimization
 
@@ -201,7 +205,7 @@ Following the testing strategy in [agent.md](./agent.md), we focus on:
 | Phase 1: Setup   | ✅ **COMPLETE** | -             | -       | -        |
 | Phase 2: Auth    | ✅ **COMPLETE** | 11            | 11      | -        |
 | Phase 3: CRUD    | ✅ **COMPLETE** | 9             | 9       | -        |
-| Phase 4: Utils   | 📝 In Progress  | -             | -       | -        |
+| Phase 4: Utils   | ✅ **COMPLETE** | 91            | 91      | -        |
 | Phase 5: Quality | 📝 In Progress  | -             | -       | -        |
 
 ---

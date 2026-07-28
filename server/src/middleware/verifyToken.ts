@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Response, NextFunction } from "express";
-import { RequestType } from "types";
+import { RequestType } from "../types";
 
 export default (req: RequestType, res: Response, next: NextFunction) => {
   const token = req.cookies["access-token"];
@@ -18,9 +18,8 @@ export default (req: RequestType, res: Response, next: NextFunction) => {
   } catch (err) {
     console.error(err);
 
-    res
-      .status(400)
-      .json({ error: "Invalid Token" })
-      .clearCookie("access-token");
+    // Clear the cookie by setting it with maxAge=0
+    res.setHeader("Set-Cookie", "access-token=; Max-Age=0; Path=/");
+    res.status(400).json({ error: "Invalid Token" });
   }
 };

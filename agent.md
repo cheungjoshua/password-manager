@@ -1,6 +1,7 @@
 # Testing Agent Specification for Password Manager
 
 ## Overview
+
 This document defines the testing strategy for the Password Manager project. This approach focuses on API testing with Jest, starting with authentication endpoints before expanding to full CRUD operations.
 
 ---
@@ -38,6 +39,7 @@ password-manager/
 ## Technology Stack
 
 ### Testing Framework
+
 - **Jest**: Primary testing framework
   - Built-in mocking capabilities
   - Great TypeScript support
@@ -45,16 +47,19 @@ password-manager/
   - Fast test execution
 
 ### HTTP Testing
+
 - **Supertest**: Middleware for testing Express routes
   - Makes HTTP requests to your server
   - Validates responses
   - Works seamlessly with Jest
 
 ### Code Coverage
+
 - **Jest Coverage**: Optional reporting
 - **Target**: 70% (voluntary, no blocking)
 
 ### Test Data Management
+
 - **Hardcoded test values**: No environment variables needed
 - **No real database**: All mocks
 
@@ -63,6 +68,7 @@ password-manager/
 ## Test Organization
 
 ### Directory Structure
+
 ```
 tests/
 ├── api/                    # API endpoint tests (highest priority)
@@ -84,29 +90,29 @@ tests/
 ## Test Configuration
 
 ### Jest Configuration
+
 ```javascript
 // jest.config.js
 module.exports = {
-  testEnvironment: 'node',
-  roots: ['<rootDir>/server/tests'],
-  testMatch: [
-    '**/tests/**/*.test.ts',
-  ],
-  moduleFileExtensions: ['js', 'ts', 'json'],
+  testEnvironment: "node",
+  roots: ["<rootDir>/server/tests"],
+  testMatch: ["**/tests/**/*.test.ts"],
+  moduleFileExtensions: ["js", "ts", "json"],
   transform: {
-    '^.+\\.ts$': 'ts-jest',
+    "^.+\\.ts$": "ts-jest",
   },
-  coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'lcov', 'html'],
-  setupFilesAfterEnv: ['<rootDir>/server/tests/setup.js'],
+  coverageDirectory: "coverage",
+  coverageReporters: ["text", "lcov", "html"],
+  setupFilesAfterEnv: ["<rootDir>/server/tests/setup.js"],
   testTimeout: 10000,
 };
 ```
 
 ### Test Setup File
+
 ```javascript
 // tests/setup.js
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 beforeAll(async () => {
   // Mock database connection
@@ -124,6 +130,7 @@ afterAll(async () => {
 ## Test Strategy
 
 ### Phase 1: Authentication Flow (Week 1)
+
 **Priority: HIGH**
 
 1. **Login Endpoint** (`POST /api/auth/login`)
@@ -146,6 +153,7 @@ afterAll(async () => {
    - Error handling for unauthenticated access
 
 ### Phase 2: Password CRUD Operations (Week 2)
+
 **Priority: HIGH**
 
 1. **Create Password Entry** (`POST /api/entries`)
@@ -168,6 +176,7 @@ afterAll(async () => {
    - Soft delete vs hard delete
 
 ### Phase 3: Supporting Tests (Week 3)
+
 **Priority: MEDIUM**
 
 1. **Database Models**
@@ -189,52 +198,66 @@ afterAll(async () => {
 
 ## Test Patterns
 
-### API Test Template
-```typescript
-import request from 'supertest';
-import app from '../../src/app';
+### Testing Anti-Patterns to Avoid
 
-describe('POST /api/auth/login', () => {
-  it('should return JWT token for valid credentials', async () => {
+- Avoid tests that only assert a module exports something or that a mock function was called without verifying observable behavior.
+- Avoid over-mocking framework internals such as Mongoose, Express, or JWT when the behavior can be tested through route responses, schema rules, or public APIs.
+- Prefer assertions on status codes, response bodies, validation errors, and schema properties rather than implementation details.
+- Keep test helpers focused on producing realistic request objects or fixtures; do not add tests that merely confirm the helper exists.
+- Do not create placeholder tests such as "should export app" or "should export helper" unless they also verify a meaningful behavior.
+- Every new test must answer a real user-facing or contract-level question.
+
+### Required Review Checklist Before Merging Tests
+
+- Verify the test is exercising behavior, not just wiring or mock setup.
+- Verify the name describes the route, handler, or contract under test.
+- Verify the assertion checks a visible outcome such as a response, error, schema rule, or state change.
+- Verify the test does not rely on unnecessary mocking when a simpler integration-style test would be clearer.
+
+### API Test Template
+
+```typescript
+import request from "supertest";
+import app from "../../src/app";
+
+describe("POST /api/auth/login", () => {
+  it("should return JWT token for valid credentials", async () => {
     const userData = {
-      username: 'testuser',
-      password: 'password123'
+      username: "testuser",
+      password: "password123",
     };
 
-    const res = await request(app)
-      .post('/api/auth/login')
-      .send(userData);
+    const res = await request(app).post("/api/auth/login").send(userData);
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty('token');
-    expect(res.body).toHaveProperty('user');
+    expect(res.body).toHaveProperty("token");
+    expect(res.body).toHaveProperty("user");
   });
 
-  it('should return 401 for invalid credentials', async () => {
-    const res = await request(app)
-      .post('/api/auth/login')
-      .send({
-        username: 'wronguser',
-        password: 'wrongpassword'
-      });
+  it("should return 401 for invalid credentials", async () => {
+    const res = await request(app).post("/api/auth/login").send({
+      username: "wronguser",
+      password: "wrongpassword",
+    });
 
     expect(res.status).toBe(401);
-    expect(res.body.message).toContain('Invalid credentials');
+    expect(res.body.message).toContain("Invalid credentials");
   });
 });
 ```
 
 ### Mock User Factory
+
 ```javascript
 const testUsers = {
   valid: {
-    username: 'testuser',
-    password: 'securePassword123!'
+    username: "testuser",
+    password: "securePassword123!",
   },
   invalid: {
-    username: 'invaliduser',
-    password: 'wrongpassword'
-  }
+    username: "invaliduser",
+    password: "wrongpassword",
+  },
 };
 
 // Export for use in tests
@@ -246,6 +269,7 @@ module.exports = testUsers;
 ## Test Execution
 
 ### Running Tests Locally
+
 ```bash
 # Run all tests
 npm test
@@ -261,6 +285,7 @@ npm test -- --testPathPattern="auth"
 ```
 
 ### Package.json Scripts
+
 ```json
 {
   "scripts": {
@@ -278,21 +303,22 @@ npm test -- --testPathPattern="auth"
 ## Mocking Strategy
 
 ### Database Mocking
+
 ```javascript
 // Use Jest's native mock for Mongoose
-import mongoose from 'mongoose';
-jest.mock('mongoose');
+import mongoose from "mongoose";
+jest.mock("mongoose");
 
-const MockModel = jest.requireMock('mongoose').default;
+const MockModel = jest.requireMock("mongoose").default;
 
-describe('User Model', () => {
-  it('should create user successfully', async () => {
-    const mockUser = { username: 'testuser' };
-    
+describe("User Model", () => {
+  it("should create user successfully", async () => {
+    const mockUser = { username: "testuser" };
+
     MockModel.create.mockResolvedValue(mockUser);
 
-    const User = require('../../src/models/User');
-    const user = await User.create({ username: 'testuser' });
+    const User = require("../../src/models/User");
+    const user = await User.create({ username: "testuser" });
 
     expect(mockUser).toEqual(user);
   });
@@ -300,21 +326,24 @@ describe('User Model', () => {
 ```
 
 ### Controller Mocking
+
 ```javascript
 // Controllers test with mocked dependencies
-jest.mock('../../src/middleware/auth');
-jest.mock('../../src/models/User');
+jest.mock("../../src/middleware/auth");
+jest.mock("../../src/models/User");
 
-describe('Login Controller', () => {
-  it('should login successfully', async () => {
-    const mockUser = { id: '123', username: 'testuser' };
-    jest.requireMock('../../src/models/User').findOne.mockResolvedValue(mockUser);
+describe("Login Controller", () => {
+  it("should login successfully", async () => {
+    const mockUser = { id: "123", username: "testuser" };
+    jest
+      .requireMock("../../src/models/User")
+      .findOne.mockResolvedValue(mockUser);
 
-    const login = require('../../src/controllers/auth.controller');
+    const login = require("../../src/controllers/auth.controller");
 
-    const result = await login.post({ username: 'testuser', password: 'pass' });
+    const result = await login.post({ username: "testuser", password: "pass" });
 
-    expect(result).toHaveProperty('token');
+    expect(result).toHaveProperty("token");
   });
 });
 ```
@@ -324,21 +353,25 @@ describe('Login Controller', () => {
 ## Quality Guidelines
 
 ### Test Naming
+
 - ✅ `POST /api/login should return 200 with valid credentials`
 - ❌ `login test`
 - ❌ `test login`
 
 ### Test Independence
+
 - Each test must be independent
 - No shared state between tests
 - Set up and tear down in each test
 
 ### Test Readability
+
 - Use `expect()` assertions clearly
 - Include error cases (invalid data, 404, 500)
 - Comment complex test scenarios
 
 ### Anti-Patterns to Avoid
+
 ```javascript
 // ❌ BAD: Test that modifies shared state
 beforeAll(async () => {
@@ -347,12 +380,12 @@ beforeAll(async () => {
 });
 
 // ✅ GOOD: Each test creates its own data
-it('creates user', async () => {
+it("creates user", async () => {
   const user = await createUser();
   // Test user...
 });
 
-it('retrieves user', async () => {
+it("retrieves user", async () => {
   const user = await createUser();
   // Test user...
 });
@@ -363,6 +396,7 @@ it('retrieves user', async () => {
 ## Migration Path (Future)
 
 ### From Option A to Option B
+
 If you decide to add CI/CD later:
 
 ```yaml
@@ -377,8 +411,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
       - run: npm ci
       - run: npm test -- --coverage
       - name: Upload coverage
@@ -386,6 +420,7 @@ jobs:
 ```
 
 ### Coverage Thresholds (When Added)
+
 ```javascript
 // Add to jest.config.js
 coverageThreshold: {
@@ -403,29 +438,34 @@ coverageThreshold: {
 ## Checklist for Implementation
 
 ### Setup Phase
+
 - [ ] Install Jest and Supertest in `server/package.json`
 - [ ] Create `jest.config.js`
 - [ ] Create `tests/` directory structure
 - [ ] Create test setup file (`tests/setup.js`)
 
 ### First Tests (Authentication)
+
 - [ ] Write login endpoint test
 - [ ] Write register endpoint test
 - [ ] Write JWT middleware test
 - [ ] Write protected route test
 
 ### Second Tests (Password CRUD)
+
 - [ ] Write create password entry test
 - [ ] Write retrieve password entry test
 - [ ] Write update password entry test
 - [ ] Write delete password entry test
 
 ### Supporting Tests
+
 - [ ] Write database model tests
 - [ ] Write middleware tests
 - [ ] Write utility function tests
 
 ### Maintenance
+
 - [ ] Review test coverage weekly
 - [ ] Refactor tests as code evolves
 - [ ] Add new tests for new features
@@ -447,6 +487,7 @@ coverageThreshold: {
 ## Questions & Feedback
 
 As we implement tests, please track:
+
 1. Which tests are failing?
 2. Which tests are slow?
 3. Which areas need more coverage?

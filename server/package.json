@@ -12,7 +12,7 @@
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test:auth": "jest tests/api/auth.test.ts",
-    "test:api": "jest tests/api/*.test.js"
+    "test:api": "jest tests/api/*.test.ts"
   },
   "keywords": [],
   "author": "",
