@@ -238,4 +238,87 @@ describe("Password controller", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.send).toHaveBeenCalledWith("Collection Not Find!");
   });
+
+  it("POST /api/passwords should handle database error in catch block", async () => {
+    (validatePost as jest.Mock).mockReturnValue({ error: null });
+    (User.findOne as jest.Mock).mockResolvedValue({ user_IV: "iv123" });
+    (Password.findOne as jest.Mock).mockResolvedValue(null);
+    // Mock database error to trigger catch block
+    (Password.findOneAndUpdate as jest.Mock).mockRejectedValue(new Error("Database connection failed"));
+
+    const req: any = {
+      body: {
+        app_name: "GitHub",
+        app_username: "octocat",
+        app_password: "secret",
+      },
+      user: { _id: "user-1" },
+    };
+    const res = mockRes();
+
+    await createPassword(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining("Database connection failed") }));
+  });
+
+  it("GET /api/passwords should handle decryption error in catch block", async () => {
+    (Password.findOne as jest.Mock).mockResolvedValue({
+      collections: [{ app_name: "GitHub" }],
+    });
+    (User.findOne as jest.Mock).mockResolvedValue({ user_IV: "iv123" });
+    // Mock decryption to throw error to trigger catch block
+    (decryptList as jest.Mock).mockImplementation(() => {
+      throw new Error("Decryption failed");
+    });
+
+    const req: any = { user: { _id: "user-1" } };
+    const res = mockRes();
+
+    await getPasswords(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining("Decryption failed") }));
+  });
+
+  it("PATCH /api/passwords/:id should handle database error in catch block", async () => {
+    (validatePost as jest.Mock).mockReturnValue({ error: null });
+    (User.findOne as jest.Mock).mockResolvedValue({ user_IV: "iv123" });
+    (Password.findOne as jest.Mock).mockResolvedValue({ user_id: "user-1" });
+    // Mock database update error to trigger catch block
+    (Password.updateOne as jest.Mock).mockRejectedValue(new Error("Update failed"));
+
+    const req: any = {
+      body: {
+        _id: "collection-1",
+        app_name: "Slack",
+        app_username: "dev@example.com",
+        app_password: "new-secret",
+      },
+      user: { _id: "user-1" },
+    };
+    const res = mockRes();
+
+    await updatePassword(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining("Update failed") }));
+  });
+
+  it("DELETE /api/passwords/:id should handle database error in catch block", async () => {
+    (Password.findOne as jest.Mock).mockResolvedValue({ user_id: "user-1" });
+    // Mock database update error to trigger catch block
+    (Password.updateOne as jest.Mock).mockRejectedValue(new Error("Delete failed"));
+
+    const req: any = {
+      params: { id: "collection-1" },
+      user: { _id: "user-1" },
+    };
+    const res = mockRes();
+
+    await deletePassword(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining("Delete failed") }));
+  });
 });
