@@ -1,5 +1,16 @@
 # Password Manager - Frontend Overview
 
+## 🎯 Agent Skill Usage Instructions
+
+**The coding agent MUST read this file when working on frontend tasks and automatically apply the following skills:**
+
+| Skill | When to Apply | What it Ensures |
+|-------|---------------|----------------|
+| **frontend-design** | ✅ **ALWAYS** for any UI work | Distinctive, intentional visual design; non-generic UI; thoughtful micro-interactions |
+| **tdd** | When creating new features or fixing bugs | Test-driven development with red-green-refactor workflow |
+
+---
+
 ## Project Context
 
 **What**: Password Manager web application to help users organize usernames and passwords for websites.

@@ -1,4 +1,43 @@
-# Testing Agent Specification for Password Manager
+# Password Manager - Agent Configuration & Testing Specification
+
+## 🎯 Agent Skill Usage Instructions
+
+### Automatic Skill Application
+
+This project has **skills installed** that the coding agent MUST automatically apply when working on the project. The agent should check this section every time it performs tasks on this repository.
+
+#### Currently Installed Skills
+
+| Skill | When to Apply | Purpose |
+|-------|---------------|----------|
+| **frontend-design** | When working on UI components, views, styling, or any visual elements | Ensure distinctive, intentional design choices that don't look templated |
+| **tdd** | When creating new features, fixing bugs, or requested by user | Test-driven development with red-green-refactor workflow |
+| *(Add more here as skills are installed)* | - | - |
+
+#### Frontend-Design Skill Usage
+
+**When to Apply:**
+- Creating or modifying any Vue component
+- Working on views, layouts, or pages
+- Adding or changing CSS/SCSS styles
+- Designing forms, modals, or interactive elements
+- Any task involving visual design
+
+**What the Skill Ensures:**
+- Intentional visual design decisions
+- Distinctive, non-generic UI elements
+- Thoughtful spacing, typography, and color choices
+- Micro-interactions and hover states
+- Mobile-first responsive patterns
+
+**Trigger Keywords:**
+- "create component", "modify view", "add button", "change styling", "design layout", "UI", "component", "style", "vue file"
+
+---
+
+## Overview
+
+This document defines the testing strategy and agent behavior for the Password Manager project. This approach focuses on API testing with Jest, starting with authentication endpoints before expanding to full CRUD operations. The coding agent will read this file and automatically apply relevant skills when working on the project.
 
 ## Overview
 
