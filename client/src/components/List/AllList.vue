@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import axios from "axios";
-import { PasswordType } from "../../types/password";
+import type { PasswordType } from "../../types/password";
 
 import ListItem from "./ListItem.vue";
 

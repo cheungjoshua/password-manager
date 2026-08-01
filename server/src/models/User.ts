@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema(
   },
 );
 
-UserSchema.pre("save", async function (next) {
+UserSchema.pre("save", async function (next: (err?: Error) => void) {
   try {
     const user = this as mongoose.Document & {
       password: string;
@@ -51,7 +51,7 @@ UserSchema.pre("save", async function (next) {
 
     next();
   } catch (err) {
-    next(err as any);
+    next(err as Error);
   }
 });
 

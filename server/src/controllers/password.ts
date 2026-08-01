@@ -19,7 +19,11 @@ export const getPasswords = async (req: RequestType, res: Response) => {
     const user = await User.findOne({ _id: userID });
     const user_IV = await user.user_IV;
 
-    let passwordsList = decryptList(user_IV, passwordsCollection.collections);
+    if (!user_IV) throw new Error("User IV not found");
+
+    const collections =
+      passwordsCollection.collections as PasswordCollectionType[];
+    let passwordsList = decryptList(user_IV, collections);
 
     res.status(200).json({ passwordsList });
   } catch (err) {
@@ -66,7 +70,7 @@ export const createPassword = async (req: RequestType, res: Response) => {
           collections: newCollection,
         },
       },
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
 
     res.status(200).json(createdPassword);
@@ -105,7 +109,7 @@ export const updatePassword = async (req: RequestType, res: Response) => {
           "collections.$.app_username": encryptData(user_IV, app_username),
           "collections.$.app_password": encryptData(user_IV, app_password),
         },
-      }
+      },
     );
 
     res.status(200).json(updatedPassword);
@@ -119,7 +123,17 @@ export const deletePassword = async (req: RequestType, res: Response) => {
   const userID = req.user._id;
   // Destruct req.body
 
-  const collectionId = new mongoose.Types.ObjectId(req.params.id);
+  const idParam = Array.isArray(req.params.id)
+    ? req.params.id[0]
+    : req.params.id;
+  if (!idParam) return res.status(400).send("Collection ID is required");
+
+  let collectionId: mongoose.Types.ObjectId | string;
+  if (mongoose.Types.ObjectId.isValid(idParam)) {
+    collectionId = new mongoose.Types.ObjectId(idParam);
+  } else {
+    collectionId = idParam;
+  }
 
   // Check password collection is exist
   const isPasswordCollectionExist = await Password.findOne({
@@ -139,7 +153,6 @@ export const deletePassword = async (req: RequestType, res: Response) => {
           },
         },
       },
-      { safe: true, strict: false }
     );
     res.status(200).json(updatedPasswordCollection);
   } catch (err) {

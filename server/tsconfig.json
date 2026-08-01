@@ -11,11 +11,12 @@
     /* Module Resolution Options */
     "moduleResolution": "node",
     "baseUrl": "./",
+    "ignoreDeprecations": "5.0",
     "esModuleInterop": true,
     /* Advanced Options */
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "ignoreDeprecations": "6.0",
+
     "types": ["jest", "node"]
   },
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { PropType } from "vue";
-import { PasswordType } from "../../types/password";
+import type { PropType } from "vue";
+import type { PasswordType } from "../../types/password";
 
 const props = defineProps({
   passwordItem: {
@@ -11,7 +11,7 @@ const props = defineProps({
 
 <template>
   <div class="listItemWrapper">
-    {{ passwordItem.app_name }}
+    {{ props.passwordItem?.app_name ?? "" }}
   </div>
 </template>
 
